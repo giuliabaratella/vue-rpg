@@ -2,7 +2,9 @@
     <main>
         <ul>
             <li v-for="item in this.store.items">
-                {{ item.name }}
+                <router-link :to="{ name: 'single-item', params: { slug: item.slug } }" class="link">
+                    {{ item.name }}
+                </router-link>
             </li>
         </ul>
     </main>
