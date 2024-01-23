@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Item">
+    <div v-if="item">
         <h1>{{ item.name }}</h1>
         <div class="w-25">
             <img :src="store.imagePath+item.img"  :alt="item.name">
