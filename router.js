@@ -3,7 +3,7 @@ import AppHome from './src/assets/pages/AppHome.vue';
 import AppCharacters from './src/assets/pages/AppCharacters.vue';
 import AppTypes from './src/assets/pages/AppTypes.vue';
 import AppItems from './src/assets/pages/AppItems.vue';
-import NotFound from './pages/NotFound.vue';
+import NotFound from './src/assets/pages/NotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,23 +14,23 @@ const router = createRouter({
       component: AppHome
     },
     {
-      path:"/characters",
-      name:"characters",
+      path: "/characters",
+      name: "characters",
       component: AppCharacters
     },
     {
-      path:"/types",
-      name:"types",
+      path: "/types",
+      name: "types",
       component: AppTypes
     },
     {
-      path:"/items",
-      name:"Items",
+      path: "/items",
+      name: "Items",
       component: AppItems
     },
     {
       path: "/:pathMatch(.*)*",
-      name:"not-found",
+      name: "not-found",
       component: NotFound
     },
   ]
