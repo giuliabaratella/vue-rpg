@@ -9,9 +9,10 @@
                 </button> -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item" v-for="route in navroutes" :key="item.index">
-                            <router-link class="nav-link active" active-class="active"
-                                :to="{ name: route.name }">{{ route.label }}</router-link>
+                        <li class="nav-item" v-for="route in navroutes">
+                            <router-link class="nav-link" :to="{ name: route.name }">
+                                {{ route.label }}
+                            </router-link>
                         </li>
                     </ul>
                     <!-- <form class="d-flex" role="search">
@@ -32,25 +33,25 @@ export default {
     },
     data() {
         return {
-            navroutes: 
-            [
-                {
-                    label: "Home",
-                    name: "home",
-                },
-                {
-                    label: "Characters",
-                    name: "characters",
-                },
-                {
-                    label: "Items",
-                    name: "items",
-                },
-                {
-                    label: "Types",
-                    name: "types",
-                },
-            ]
+            navroutes:
+                [
+                    {
+                        label: "Home",
+                        name: "home",
+                    },
+                    {
+                        label: "Characters",
+                        name: "characters",
+                    },
+                    {
+                        label: "Items",
+                        name: "items",
+                    },
+                    {
+                        label: "Types",
+                        name: "types",
+                    },
+                ]
         }
     },
 };
