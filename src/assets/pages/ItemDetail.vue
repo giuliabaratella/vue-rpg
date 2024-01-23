@@ -14,18 +14,18 @@
 <script>
 import axios from 'axios';
 import { store } from "@/data/store";
-
 export default {
     name: 'ItemDetails',
     data() {
         return {
             store,
-            item: []
+            item: null
         }
     },
     methods: {
-        getItemDetail() {
-            axios.get(this.store.apiUrl+"/items"+this.$route.params.slug).then((res)=>{
+        getItemData() {
+            axios.get(this.store.apiUrl+"/items/"+this.$route.params.slug).then((res)=>{
+                // console.log(res.data);
                 if(res.data.results) {
                     this.item = res.data.results
                 }else{
@@ -35,7 +35,7 @@ export default {
         },
     },
     mounted() {
-        this.getItemDetail()
+        this.getItemData();
     }
 }
 </script>
