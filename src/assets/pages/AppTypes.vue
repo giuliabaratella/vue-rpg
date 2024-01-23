@@ -1,6 +1,8 @@
 <template>
-    <div v-for="types in store.types">
-        <h1>{{ types.name }}</h1>
+    <div v-for="type in this.store.types">
+        <router-link :to="{ name: 'single-type', params: { slug: type.slug } }" class="link">
+            {{ type.name }}
+        </router-link>
     </div>
 </template>
 

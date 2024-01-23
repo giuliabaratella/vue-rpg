@@ -3,7 +3,9 @@
       <h1 class="m-3">Characters</h1>
       <div class="row row-cols-5 g-3 justify-content-center">
          <div v-for="character in this.store.characters">
-            <h2>{{ character.name }}</h2>
+            <router-link :to="{ name: 'single-character', params: { slug: character.slug } }" class="link">
+               {{ character.name }}
+            </router-link>
          </div>
       </div>
    </div>
