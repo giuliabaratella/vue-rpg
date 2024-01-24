@@ -1,21 +1,26 @@
 <template>
-   <div class="container text-center">
-      <h1 class="m-3">Characters</h1>
-      <div class="row row-cols-5 g-3 justify-content-center">
-         <div v-for="character in this.store.characters">
-            <router-link :to="{ name: 'single-character', params: { slug: character.slug } }" class="link">
-               {{ character.name }}
+   <main class="container text-center py-5">
+      <h1 class="mb-3">Characters</h1>
+      <p>Discover all our playable characters!</p>
+      <div class="row g-4 justify-content-center">
+         <div v-for="character in this.store.characters" class="col-2">
+            <router-link :to="{ name: 'single-character', params: { slug: character.slug } }" class="">
+               <CharacterCard :character="character" />
             </router-link>
          </div>
       </div>
-   </div>
+   </main>
 </template>
 
 <script>
 import { store } from '@/data/store';
 import axios from 'axios';
+import CharacterCard from '../components/CharacterCard.vue';
 export default {
    name: 'AppCharacter',
+   components: {
+      CharacterCard,
+   },
    data() {
       return {
          store
@@ -36,4 +41,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use '../styles/partials/variables' as *;
+
+h1{
+   color: $color-primary;
+}
+p  {
+   font-size: 1.3em;
+}
+
+</style>
