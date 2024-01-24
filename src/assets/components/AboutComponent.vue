@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-lg-6 col-md-12 overflow-hidden ">
                     <video  src="../images/videoplayback.mp4" no-controls autoplay muted>
-                        Il tuo browser non supporta il nostro video, sorry
+                        Your browser does not support the video tag.
                     </video>
                 </div>
             </div>

@@ -1,16 +1,16 @@
 <template>
-  <NavbarComponent />
+  <NavbarComponent/>
   <router-view :key="$route.path"></router-view>
-  <AppFooter/>
+  <FooterComponent/>
 </template>
 
 <script>
-import NavbarComponent from './assets/components/NavbarComponent.vue'
-import AppFooter from './assets/components/AppFooter.vue';
+import NavbarComponent from './assets/components/NavbarComponent.vue';
+import FooterComponent from './assets/components/FooterComponent.vue';
 export default {
   components: {
     NavbarComponent,
-    AppFooter
+    FooterComponent
   },
   data() {
     return {
