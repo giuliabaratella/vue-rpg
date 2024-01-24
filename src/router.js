@@ -6,6 +6,7 @@ import AppTypes from "./assets/pages/AppTypes.vue";
 import TypeDetail from "./assets/pages/TypeDetail.vue";
 import AppItems from "./assets/pages/AppItems.vue";
 import ItemDetail from "./assets/pages/ItemDetail.vue";
+import AppGame from "./assets/pages/AppGame.vue";
 import NotFound from "./assets/pages/NotFound.vue";
 
 const router = createRouter({
@@ -45,6 +46,11 @@ const router = createRouter({
       path: "/items/:slug",
       name: "single-item",
       component: ItemDetail,
+    },
+    {
+      path: "/game",
+      name: "game",
+      component: AppGame,
     },
     {
       path: "/:pathMatch(.*)*",
