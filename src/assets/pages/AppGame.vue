@@ -1,14 +1,37 @@
 <template>
-   <div>
-      Giochiamo
-      <select v-model="characterSelected" @change="CharacterId()">
+   <div class="container">
+      <h1>Play</h1>
+      <select v-model="characterSelected" @change="CharacterId()" class="m-3" v-if="!playerCard">
+         <label for="character">Select your character</label>
          <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
       </select>
-      <div v-if="playerCard">
-         {{ playerCard.name }}
-         <div v-if="computerCard">{{ computerCard.name }}</div>
-         <button @click="generateComputerCharacter()">Genera</button>
-         <button @click="startBattle()">Inizia</button>
+      <div v-else>
+         <div class="card mb-3">
+            <h1>{{ playerCard.name }}</h1>
+            <h3>Stats</h3>
+            <div class="d-flex">
+               <h4>Att: {{ playerCard.attack }}</h4>
+               <h4>Def: {{ playerCard.defence }}</h4>
+               <h4>Speed: {{ playerCard.speed }}</h4>
+            </div>
+         </div>
+         <div v-if="computerCard">
+            <div class="card mb-3">
+               <h1>{{ computerCard.name }}</h1>
+               <h3>Stats</h3>
+               <div class="d-flex">
+                  <h4>Att: {{ computerCard.attack }}</h4>
+                  <h4>Def: {{ computerCard.defence }}</h4>
+                  <h4>Speed: {{ computerCard.speed }}</h4>
+               </div>
+            </div>
+         </div>
+         <div v-else>
+            <button @click="generateComputerCharacter()">Genera</button>
+         </div>
+         <div v-if="computerCard && playerCard">
+            <button @click="startBattle()">Inizia</button>
+         </div>
       </div>
    </div>
 </template>
