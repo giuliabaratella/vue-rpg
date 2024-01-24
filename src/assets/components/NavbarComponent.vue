@@ -51,6 +51,10 @@ export default {
                         label: "Types",
                         name: "types",
                     },
+                    {
+                        label: "Game",
+                        name: "game",
+                    },
                 ]
         }
     },
