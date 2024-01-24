@@ -1,11 +1,15 @@
 <template>
    <div>
-      ciao
+      Giochiamo
       <select v-model="characterSelected" @change="CharacterId()">
          <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
       </select>
-      <button @click="generateComputerCharacter()">Genera</button>
-      <button @click="startBattle()">Inizia</button>
+      <div v-if="playerCard">
+         {{ playerCard.name }}
+         <div v-if="computerCard">{{ computerCard.name }}</div>
+         <button @click="generateComputerCharacter()">Genera</button>
+         <button @click="startBattle()">Inizia</button>
+      </div>
    </div>
 </template>
  
@@ -82,7 +86,7 @@ export default {
    },
    mounted() {
       this.allCharacters();
-      this.generateComputerCharacter();
+      // this.generateComputerCharacter();
    }
 }
 </script>
