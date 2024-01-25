@@ -13,9 +13,8 @@ import AboutComponent from '../components/AboutComponent.vue';
         components:{
             AdvBanner,
             HeroComponent,
-            AboutComponent
+            AboutComponent,
         }
-        
     }
 </script>
 
