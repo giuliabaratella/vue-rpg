@@ -25,7 +25,7 @@
           <router-link
             :to="{ name: 'single-character', params: { slug: character.slug } }"
           >
-            <CharacterCard :character="character" />
+            <basicCard :el="character" />
           </router-link>
         </div>
       </div>
@@ -42,11 +42,11 @@
 <script>
 import axios from "axios";
 import { store } from "@/data/store";
-import CharacterCard from "@/assets/components/CharacterCard.vue";
+import basicCard from "@/assets/components/basicCard.vue";
 export default {
   name: "TypeDetail",
   components: {
-    CharacterCard,
+    basicCard,
   },
   data() {
     return {
