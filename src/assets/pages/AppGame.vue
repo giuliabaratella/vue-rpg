@@ -5,30 +5,34 @@
          <label for="character">Select your character</label>
          <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
       </select>
-      <div v-else>
-         <div class="card mb-3">
-            <h1>{{ playerData.name }}</h1>
-            <h3>Stats</h3>
-            <div class="d-flex gap-5">
-               <h4>Life: {{ playerData.life }}</h4>
-               <h4>Att: {{ playerData.attack }}</h4>
-               <h4>Def: {{ playerData.defence }}</h4>
-               <h4>Speed: {{ playerData.speed }}</h4>
-            </div>
-         </div>
-         <div v-if="computerData">
+      <div v-if="playerData">
+         <div class="d-flex gap-5 ">
             <div class="card mb-3">
-               <h1>{{ computerData.name }}</h1>
+               <h1>{{ playerData.name }}</h1>
                <h3>Stats</h3>
                <div class="d-flex gap-5">
-                  <h4>Life: {{ computerData.life }}</h4>
-                  <h4>Att: {{ computerData.attack }}</h4>
-                  <h4>Def: {{ computerData.defence }}</h4>
-                  <h4>Speed: {{ computerData.speed }}</h4>
+                  <h4>Life: {{ playerData.life }}</h4>
+                  <h4>Att: {{ playerData.attack }}</h4>
+                  <h4>Def: {{ playerData.defence }}</h4>
+                  <h4>Speed: {{ playerData.speed }}</h4>
+               </div>
+               <h2>Current Life: <span id="playerLife"></span></h2>
+            </div>
+            <div v-if="computerData">
+               <div class="card mb-3">
+                  <h1>{{ computerData.name }}</h1>
+                  <h3>Stats</h3>
+                  <div class="d-flex gap-5">
+                     <h4>Life: {{ computerData.life }}</h4>
+                     <h4>Att: {{ computerData.attack }}</h4>
+                     <h4>Def: {{ computerData.defence }}</h4>
+                     <h4>Speed: {{ computerData.speed }}</h4>
+                  </div>
+                  <h2>Current Life: <span id="computerLife"></span></h2>
                </div>
             </div>
          </div>
-         <div v-else>
+         <div v-if="!computerData">
             <button @click="generateComputerCharacter()">Genera</button>
          </div>
          <div v-if="computerData && playerData">
@@ -50,7 +54,7 @@ export default {
          computerData: null,
          characterSelected: "",
          results: "",
-         round: 0
+         round: 0,
       }
    },
    methods: {
@@ -85,33 +89,51 @@ export default {
          });
          console.log(this.playerData)
       },
+      async startTurn(att, def, id) {
+         return new Promise((resolve) => {
+            setTimeout(() => {
+               def.life -= att.attack;
+               console.log('computer.life' + def.life);
+               const currentLife = document.querySelector(`#${id}`);
+               currentLife.textContent = def.life;
+               // if (turn) {
+               // } else {
+               //    def.life -= att.attack;
+               //    console.log('player.life' + att.life);
+               //    this.round++;
+               //    console.log('round' + this.round);
+               // };
+               // turn = !turn;
+               // console.log('turn' + turn);
+               resolve();
+            }, 2000)
+         })
+      },
+      async startBattle(playerData, computerData) {
 
-      startBattle(playerData, computerData) {
-
-         let player = playerData;
-         let computer = computerData;
+         let player = { ...playerData };
+         let computer = { ...computerData };
 
          let gameOver = false;
-         let turn = true;
          let round = 1;
+         let turn = true;
 
-         
+         const computerId = "computerLife";
+         const playerId = "playerLife";
+
          while (!gameOver) {
             console.log('round' + round);
-            
+
             if (turn) {
-               computer.life -= player.attack;
-               console.log('computer.life' + computer.life);
+               await this.startTurn(player, computer, computerId);
             } else {
-               player.life -= computer.attack;
-               console.log('player.life' + player.life);
-               round ++;
+               await this.startTurn(computer, player, playerId);
+               round++;
                console.log('round' + round);
             };
-
             turn = !turn;
             console.log('turn' + turn);
-            
+
             if (player.life <= 0 || computer.life <= 0) {
                gameOver = true;
             };
