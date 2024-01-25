@@ -1,38 +1,106 @@
 <template>
   <div v-if="type">
-    <h1>Show Type</h1>
-    <h3>{{ type.name }}</h3>
-    <img :src="store.imagePath + type.img" :alt="type.name">
+    <main class="container py-5">
+      <div class="row type-card p-3 mb-5 text-center">
+        <div
+          class="col-12 d-flex align-items-center justify-content-center mb-3"
+        >
+          <h1 class="me-3">{{ type.name }}</h1>
+          <div>
+            <img :src="store.imagePath + type.img" :alt="type.image" />
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div>{{ type.description }}</div>
+        </div>
+      </div>
+
+      <!-- related characters  -->
+      <h4 class="text-center mb-3">
+        All characters with {{ type.name }} class
+      </h4>
+      <div class="row justify-content-center mb-5">
+        <div v-for="character in type.characters" class="col-2 text-center">
+          <router-link
+            :to="{ name: 'single-character', params: { slug: character.slug } }"
+          >
+            <CharacterCard :character="character" />
+          </router-link>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button>
+          <router-link :to="{ name: 'types' }"> Back to All Types </router-link>
+        </button>
+      </div>
+    </main>
   </div>
 </template>
-  
+
 <script>
 import axios from "axios";
 import { store } from "@/data/store";
+import CharacterCard from "@/assets/components/CharacterCard.vue";
 export default {
   name: "TypeDetail",
+  components: {
+    CharacterCard,
+  },
   data() {
     return {
       store,
-      type: null
-    }
+      type: null,
+    };
   },
   methods: {
     getTypeData() {
-      axios.get(this.store.apiUrl + "/types/" + this.$route.params.slug).then((res) => {
-        if (res.data.results) {
-          this.type = res.data.results;
-        } else {
-          this.$router.push({name:"not-found"})
-        }
-      })
+      axios
+        .get(this.store.apiUrl + "/types/" + this.$route.params.slug)
+        .then((res) => {
+          if (res.data.results) {
+            this.type = res.data.results;
+          } else {
+            this.$router.push({ name: "not-found" });
+          }
+        });
     },
   },
   mounted() {
     this.getTypeData();
-  }
+  },
 };
 </script>
-  
-<style lang="scss" scoped></style>
-  
+
+<style lang="scss" scoped>
+@use "../styles/partials/variables" as *;
+
+.card {
+  img-box {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  width: 200px;
+  height: 300px;
+  border: 1px solid $color-primary;
+
+  &:hover {
+    transition: all 0.3s;
+    filter: brightness(70%);
+    transform: scale(1.05);
+  }
+}
+
+button {
+  a {
+    text-decoration: none;
+    color: $color-black;
+  }
+}
+h4 {
+  color: $color-primary;
+}
+</style>
