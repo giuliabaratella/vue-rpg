@@ -14,7 +14,7 @@
                     </p>
                 </div>
                 <div class="col-lg-6 col-md-12 overflow-hidden ">
-                    <video  src="../images/videoplayback.mp4" no-controls autoplay muted>
+                    <video src="../images/videoplayback.mp4" no-controls autoplay muted loop>
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -32,34 +32,6 @@ export default {
 
 <style lang="scss" scoped>
 @use '../styles/partials/variables' as *;
-
-// #hero{
-//     width: 100%;
-//     height: 1000px;
-//     background-image: url(../images/hero-bg.jpg);
-//     background-size: cover;
-//     background-position: bottom;
-
-//     .container{
-//         position: relative;
-//         height: 100%;
-
-//         .hero-text{
-//             width: 100%;
-//             text-align: center;
-//             position: absolute;
-//             bottom: 250px;
-//             left: 50%;
-//             transform: translate(-50%, 0);
-
-//             p{
-//                 font-size: 4em;
-//                 font-weight: 600;
-//                 text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
-//             }
-//         }
-//     }
-// }
 .container-fluid {
     background-color: $color-bg-dark;
 }

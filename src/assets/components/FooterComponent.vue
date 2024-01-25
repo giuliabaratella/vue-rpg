@@ -107,6 +107,7 @@ footer {
 
     &:hover {
       color: $color-primary-hover;
+      transition: all 0.5s;
     }
   }
 
