@@ -1,13 +1,29 @@
 <template>
+   
    <div class="container">
+      
+      
+      <div class="d-flex gap-5 ">
+         <div class="d-none" id="roundEl">
+            <h3>Round <span id="roundNumber"></span></h3>
+         </div>
+         <!-- <div class="" id="roundEl">
+            <h3>Round <span id="roundNumber"></span></h3>
+         </div> -->
+
+      </div>
+
+
       <h1>Play</h1>
       <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
          <label for="character">Select your character</label>
          <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
       </select>
+
+      
       <div v-if="playerData">
          <div class="d-flex gap-5 ">
-            <div class="card mb-3">
+            <div class="card mb-3" id="playerCard">
                <h1>{{ playerData.name }}</h1>
                <h3>Stats</h3>
                <div class="d-flex gap-5">
@@ -17,9 +33,14 @@
                   <h4>Speed: {{ playerData.speed }}</h4>
                </div>
                <h2>Current Life: <span id="playerLife"></span></h2>
+               <div v-for="item in playerData.items">
+                  <!-- <p>{{ item.name }}</p> -->
+                  <img :src="item.img" :alt="item.name">
+                  
+               </div>
             </div>
             <div v-if="computerData">
-               <div class="card mb-3">
+               <div class="card mb-3"  id="computerCard">
                   <h1>{{ computerData.name }}</h1>
                   <h3>Stats</h3>
                   <div class="d-flex gap-5">
@@ -29,6 +50,11 @@
                      <h4>Speed: {{ computerData.speed }}</h4>
                   </div>
                   <h2>Current Life: <span id="computerLife"></span></h2>
+                  <div v-for="item in computerData.items">
+                  <!-- <p>{{ item.name }}</p> -->
+                  <img :src="item.img" :alt="item.name">
+                  
+               </div>
                </div>
             </div>
          </div>
@@ -89,26 +115,48 @@ export default {
          });
          console.log(this.playerData)
       },
+
       async startTurn(att, def, id) {
          return new Promise((resolve) => {
+
+            const currentCard = document.querySelector(`#${id}Card`);
+
+            setTimeout(() => {
+               // currentCard.textContent = 'sdafadsf';
+               currentCard.classList.add('card_active');
+
+            }, 4000)
             setTimeout(() => {
                def.life -= att.attack;
-               console.log('computer.life' + def.life);
-               const currentLife = document.querySelector(`#${id}`);
-               currentLife.textContent = def.life;
-               // if (turn) {
-               // } else {
-               //    def.life -= att.attack;
-               //    console.log('player.life' + att.life);
-               //    this.round++;
-               //    console.log('round' + this.round);
-               // };
-               // turn = !turn;
-               // console.log('turn' + turn);
+
+               document.querySelector(`#${id}Life`).textContent = def.life;
+
+               currentCard.classList.remove('card_active');
+
                resolve();
-            }, 2000)
+            }, 4000)
          })
       },
+
+      async startRound(round) {
+         return new Promise((resolve) => {
+            const roundCounterEl = document.querySelector('#roundEl');
+            
+            setTimeout(() => {
+               document.querySelector('#roundNumber').textContent = round;
+               roundCounterEl.classList.remove('d-none');
+               console.log('Round1');
+               
+            }, 2000)
+            setTimeout(() => {
+               roundCounterEl.classList.add('d-none');
+
+               console.log('Round2');
+               resolve();
+            }, 4000)
+         })
+      },
+
       async startBattle(playerData, computerData) {
 
          let player = { ...playerData };
@@ -116,27 +164,48 @@ export default {
 
          let gameOver = false;
          let round = 1;
-         let turn = true;
+         let turn = 0;
+         let playerTurn = true;
 
-         const computerId = "computerLife";
-         const playerId = "playerLife";
+         playerData.speed < computerData.speed ? playerTurn = false : '';
+
+         const computerId = "computer";
+         const playerId = "player";
+
+
+         const currentComputerLife = document.querySelector('#computerLife');
+         currentComputerLife.textContent = computer.life;
+
+         const currentPlayerLife = document.querySelector('#playerLife');
+         currentPlayerLife.textContent = player.life;
+
+         // console.log('round 1')
 
          while (!gameOver) {
-            console.log('round' + round);
+            console.log(playerTurn);
+            
+            if (turn % 2 === 0) {
+               await this.startRound(round);
 
-            if (turn) {
+               // console.log('round: ' + round);
+               
+               round++
+            }
+            
+            turn++;
+            
+            
+            if (playerTurn) {
                await this.startTurn(player, computer, computerId);
             } else {
                await this.startTurn(computer, player, playerId);
-               round++;
-               console.log('round' + round);
             };
-            turn = !turn;
-            console.log('turn' + turn);
-
+            playerTurn = !playerTurn;
+            
             if (player.life <= 0 || computer.life <= 0) {
                gameOver = true;
             };
+            console.log('turn: ' + turn);
          };
 
          if (player.life <= 0) {
@@ -155,4 +224,13 @@ export default {
 }
 </script>
  
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+.card_active
+{
+   // transition: 1s;
+   transform: scale(1.1);
+}
+
+
+</style>
