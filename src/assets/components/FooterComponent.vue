@@ -2,13 +2,16 @@
   <footer>
     <!-- social icons -->
 
-    <div id="social-icons" class="row justify-content-center py-5 mb-3">
+    <div
+      id="social-icons"
+      class="d-flex justify-content-center flex-wrap py-5 mb-3"
+    >
       <div
         v-for="icon in store.socialIcons"
-        class="col-2 d-flex align-items-center justify-content-center m-3"
+        class="d-flex align-items-center justify-content-center m-3"
         id="icon-cont"
       >
-        <i :class="icon" class="p-1"></i>
+        <i :class="icon"></i>
       </div>
     </div>
     <div class="container-fluid">
@@ -85,8 +88,8 @@ export default {
 @use "../styles/partials/variables" as *;
 
 footer {
-  width: 100%;
-  height: 400px;
+  // width: 100%;
+  // height: 400px;
   // padding-top: 100px;
 
   p {
@@ -100,7 +103,7 @@ footer {
     height: 50px;
     border-radius: 50%;
     border: 1px solid $color-primary;
-    padding: auto;
+    // padding: auto;
     color: $color-primary;
 
     &:hover {

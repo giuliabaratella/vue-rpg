@@ -4,7 +4,10 @@
     <h1 class="mb-3">Items</h1>
     <p>Find your perfect weapon!</p>
     <div class="row g-4 justify-content-center">
-      <div v-for="item in this.store.items" class="col-2">
+      <div
+        v-for="item in this.store.items"
+        class="col-6 col-md-4 col-lg-3 col-xl-2"
+      >
         <router-link :to="{ name: 'single-item', params: { slug: item.slug } }">
           <basicCard :el="item" />
         </router-link>
