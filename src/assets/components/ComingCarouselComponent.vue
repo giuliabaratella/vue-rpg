@@ -1,5 +1,5 @@
 <template>
-    <div class="continaer-fluid coming-bg">
+    <section class="container-fluid coming-bg">
         <div class="container">
             <Carousel  :itemsToShow="1.50" :wrapAround="true" :transition="500">
                 <Slide v-for="slide in slideImgs" :key="slide">
@@ -20,7 +20,7 @@
                 </template>
             </Carousel>
         </div>
-    </div>
+    </section>
 </template>
   
 <script>
