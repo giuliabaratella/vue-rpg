@@ -5,7 +5,7 @@
             <div class="col-10 banner d-flex flex-column align-items-center justify-content-center">
                 <div class="banner-text text-center">
                     <h2 class="mb-4 text-uppercase ">70%Off!</h2>
-                    <button class="text-uppercase fw-bold fs-3">Get Coins</button>
+                    <button class="text-uppercase fw-bold fs-3 gold-button">Get Coins</button>
                 </div>
                 <div class="banner-item-1">
                     <img src="../images/chest.png" alt="banner-item">
