@@ -34,7 +34,9 @@ export default {
 @use '../styles/partials/variables' as *;
 .container-fluid {
     background-color: $color-bg-dark;
+    background-image: url(../images/bg-logo-fade.png);
 }
+
 
 h1{
     font-size: 4rem;
