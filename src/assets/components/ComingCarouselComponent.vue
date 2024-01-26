@@ -91,18 +91,19 @@ export default defineComponent({
 
 .carousel__slide--prev {
     opacity: 1;
-    filter: brightness(60%);
+    filter: brightness(50%);
     transform: rotateY(-10deg) scale(0.95);
 }
 
 .carousel__slide--next {
     opacity: 1;
-    filter: brightness(60%);
+    filter: brightness(50%);
     transform: rotateY(10deg) scale(0.85);
 }
 
 .carousel__slide--active {
     opacity: 1;
+    filter: brightness(120%);
     transform: rotateY(0) scale(1.10);
 }
 
