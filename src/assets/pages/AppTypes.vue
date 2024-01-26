@@ -39,18 +39,9 @@ export default {
     };
   },
 
-  methods: {
-    getAllTypes() {
-      axios.get(store.apiUrl + "/types").then((res) => {
-        console.log(res.data);
-        this.store.types = res.data.results;
-      });
-    },
-  },
+  methods: {},
 
-  mounted() {
-    this.getAllTypes();
-  },
+  mounted() {},
 };
 </script>
 
