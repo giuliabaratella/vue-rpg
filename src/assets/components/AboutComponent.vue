@@ -1,6 +1,6 @@
 <template>
     <!-- About  -->
-    <div class="container-fluid">
+    <div class="container-fluid container-logo pt-5">
         <section class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-6 col-md-12 mb-4">
@@ -13,13 +13,16 @@
                         to relinquish what they created.
                     </p>
                 </div>
-                <div class="col-lg-6 col-md-12 overflow-hidden ">
-                    <video src="../images/videoplayback.mp4" no-controls autoplay muted loop>
+                <div class="col-lg-6 col-md-12 overflow-hidden">
+                    <video src="../images/videoplayback.mp4" no-controls autoplay muted loop class="shadow-lg">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
         </section>
+    </div>
+    <div class="container-fluid container-fade pb-5">
+
     </div>
 </template>
 
@@ -32,9 +35,18 @@ export default {
 
 <style lang="scss" scoped>
 @use '../styles/partials/variables' as *;
-.container-fluid {
+.container-logo {
     background-color: $color-bg-dark;
     background-image: url(../images/bg-logo-fade.png);
+    background-repeat: no-repeat;
+    background-size: 700px;
+    background-position: center;
+}
+
+.container-fade {
+    background-color: $color-bg-dark;
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
 }
 
 
