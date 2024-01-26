@@ -1,5 +1,5 @@
 <template>
-  <div class=" container-fluid ">
+  <div class="container-fluid">
     <main class="container text-center py-5">
       <h1 class="mb-3">Characters</h1>
       <p>Discover all our playable characters!</p>
@@ -10,7 +10,6 @@
         >
           <router-link
             :to="{ name: 'single-character', params: { slug: character.slug } }"
-            class=""
           >
             <basicCard :el="character" />
           </router-link>
@@ -41,7 +40,7 @@ export default {
 @use "../styles/partials/variables" as *;
 
 .container-fluid {
-  background-image: url('../images/all_character_page_01.png');
+  background-image: url("../images/all_character_page_01.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;

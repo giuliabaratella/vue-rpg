@@ -1,7 +1,9 @@
 <template>
   <div class="container-fluid">
     <div v-if="character">
-      <main class="container py-5 d-flex flex-column justify-content-center align-items-center">
+      <main
+        class="container py-5 d-flex flex-column justify-content-center align-items-center"
+      >
         <div class="row character-card p-3 mb-5 mx-3">
           <div class="col-md-4 col-lg-3 mb-lg-3 overflow-hidden pt-2">
             <img :src="store.imagePath + character.img" :alt="character.name" />
@@ -13,11 +15,17 @@
                 <h5>{{ character.description }}</h5>
               </div>
               <div class="type-card text-center">
-                <router-link :to="{
-                  name: 'single-type',
-                  params: { slug: character.type.slug },
-                }" class="link">
-                  <img :src="store.imagePath + character.type.img" :alt="character.type.name" />
+                <router-link
+                  :to="{
+                    name: 'single-type',
+                    params: { slug: character.type.slug },
+                  }"
+                  class="link"
+                >
+                  <img
+                    :src="store.imagePath + character.type.img"
+                    :alt="character.type.name"
+                  />
                   <h6 class="text-white">{{ character.type.name }}</h6>
                 </router-link>
               </div>
@@ -49,7 +57,9 @@
               <div class="d-flex column-gap-3">
                 <div v-for="item in character.items" class="text-center mb-3">
                   <div class="item-box mb-3">
-                    <router-link :to="{ name: 'single-item', params: { slug: item.slug } }">
+                    <router-link
+                      :to="{ name: 'single-item', params: { slug: item.slug } }"
+                    >
                       <img :src="store.imagePath + item.img" :alt="item.name" />
                     </router-link>
                   </div>
@@ -60,9 +70,7 @@
           </div>
         </div>
         <router-link :to="{ name: 'characters' }">
-          <button class="gold-button">
-            Back to Characters
-          </button>
+          <button class="gold-button">Back to Characters</button>
         </router-link>
       </main>
     </div>
@@ -104,11 +112,10 @@ export default {
 @use "../styles/partials/variables" as *;
 
 .container-fluid {
-  background-image: url('../images/detail_character_page_01.png');
+  background-image: url("../images/detail_character_page_01.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
-
 }
 
 .character-card {
@@ -116,7 +123,7 @@ export default {
   border-radius: 20px;
   max-width: 1000px;
   overflow: hidden;
-  background-image: url('../images/bg-logo-fade.png');
+  background-image: url("../images/bg-logo-fade.png");
   background-repeat: no-repeat;
   background-size: 500px;
   background-position: center;
