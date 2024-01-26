@@ -31,9 +31,11 @@
       </div>
 
       <div class="text-center">
-        <button>
-          <router-link :to="{ name: 'types' }"> Back to All Types </router-link>
+        <router-link :to="{ name: 'types' }">
+        <button class="gold-button">
+           Back to All Types
         </button>
+      </router-link>
       </div>
     </main>
   </div>

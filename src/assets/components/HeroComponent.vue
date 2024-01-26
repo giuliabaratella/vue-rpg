@@ -4,7 +4,7 @@
         <div class="container">
             <div class="hero-text">
                 <p class="mb-4">A long submerged evil stirs beneath the surface. <br> Join the battle for the future!</p>
-                <button class="text-uppercase fw-bold fs-3">Play Now</button>
+                <button class="text-uppercase fw-bold fs-3 gold-button">Play Now</button>
             </div>
         </div>
     </div>

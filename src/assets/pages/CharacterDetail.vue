@@ -70,12 +70,11 @@
           </div>
         </div>
       </div>
-
-      <button>
-        <router-link :to="{ name: 'characters' }">
+      <router-link :to="{ name: 'characters' }">
+        <button class="gold-button">
           Back to Characters
-        </router-link>
-      </button>
+        </button>
+    </router-link>
     </main>
   </div>
 </template>

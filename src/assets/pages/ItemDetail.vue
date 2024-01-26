@@ -56,10 +56,11 @@
           </div>
         </div>
       </div>
-
-      <button>
-        <router-link :to="{ name: 'items' }"> Back to Items </router-link>
-      </button>
+      <router-link :to="{ name: 'items' }">
+        <button class="gold-button">
+          Back to Items
+        </button>
+    </router-link>
     </main>
   </div>
 </template>
