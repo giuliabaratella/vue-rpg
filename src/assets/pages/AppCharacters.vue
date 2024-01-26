@@ -32,17 +32,6 @@ export default {
       store,
     };
   },
-  methods: {
-    allCharacters() {
-      axios.get(store.apiUrl + "/characters").then((res) => {
-        console.log(res.data.results);
-        this.store.characters = res.data.results;
-      });
-    },
-  },
-  mounted() {
-    this.allCharacters();
-  },
 };
 </script>
 

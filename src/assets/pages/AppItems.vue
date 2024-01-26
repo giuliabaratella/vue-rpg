@@ -31,17 +31,8 @@ export default {
       store,
     };
   },
-  methods: {
-    getAllItems() {
-      axios.get(store.apiUrl + "/items").then((res) => {
-        console.log(res.data);
-        this.store.items = res.data.results;
-      });
-    },
-  },
-  mounted() {
-    this.getAllItems();
-  },
+  methods: {},
+  mounted() {},
 };
 </script>
 
