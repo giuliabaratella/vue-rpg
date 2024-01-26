@@ -1,21 +1,23 @@
 <template>
-  <main class="container text-center py-5">
-    <h1 class="mb-3">Characters</h1>
-    <p>Discover all our playable characters!</p>
-    <div class="row g-4 justify-content-center">
-      <div
-        v-for="character in this.store.characters"
-        class="col-6 col-md-4 col-lg-3 col-xl-2"
-      >
-        <router-link
-          :to="{ name: 'single-character', params: { slug: character.slug } }"
-          class=""
+  <div class=" container-fluid ">
+    <main class="container text-center py-5">
+      <h1 class="mb-3">Characters</h1>
+      <p>Discover all our playable characters!</p>
+      <div class="row g-4 justify-content-center">
+        <div
+          v-for="character in this.store.characters"
+          class="col-6 col-md-4 col-lg-3 col-xl-2"
         >
-          <basicCard :el="character" />
-        </router-link>
+          <router-link
+            :to="{ name: 'single-character', params: { slug: character.slug } }"
+            class=""
+          >
+            <basicCard :el="character" />
+          </router-link>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -37,6 +39,13 @@ export default {
 
 <style lang="scss" scoped>
 @use "../styles/partials/variables" as *;
+
+.container-fluid {
+  background-image: url('../images/all_character_page_01.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+}
 
 h1 {
   color: $color-primary;
