@@ -1,14 +1,18 @@
 <template>
     <section class="container-fluid coming-bg">
         <div class="container">
-            <Carousel  :itemsToShow="1.50" :wrapAround="true" :transition="500">
+            <div class="section-label">
+                <img src="../images/rpg_logo_high_white.png" alt="logo" />
+                <h3>Coming Soon</h3>
+            </div>
+            <Carousel :itemsToShow="1.50" :wrapAround="true" :transition="500">
                 <Slide v-for="slide in slideImgs" :key="slide">
                     <div class="carousel__item">
                         <img :src="slide.img" :alt="slide.title" />
                     </div>
                 </Slide>
                 <template #addons>
-                    <Pagination/>
+                    <Pagination />
                     <Navigation>
                         <template #next id="right">
                             <img src="../images/arrow-right.png" alt="arraw-right">
@@ -19,6 +23,11 @@
                     </Navigation>
                 </template>
             </Carousel>
+            <div class="text-center">
+                <button class="gold-button">
+                    Download
+                </button>
+            </div>
         </div>
     </section>
 </template>
@@ -41,22 +50,22 @@ export default defineComponent({
         return {
             slideImgs: [
                 {
-                    img: '../../../public/images/carousel_comingsoon_1.jpg',
+                    img: '/images/carousel_comingsoon_1.jpg',
                     title: 'Coming-Soon-01',
                 },
                 {
-                    img: '../../../public/images/carousel_comingsoon_2.jpg',
+                    img: '/images/carousel_comingsoon_2.jpg',
                     title: 'Coming-Soon-02',
                 },
                 {
-                    img: '../../../public/images/carousel_comingsoon_3.jpg',
+                    img: '/images/carousel_comingsoon_3.jpg',
                     title: 'Coming-Soon-03',
                 },
                 {
-                    img: '../../../public/images/carousel_comingsoon_4.jpg',
+                    img: '/images/carousel_comingsoon_4.jpg',
                     title: 'Coming-Soon-04',
                 }
-                
+
             ]
         }
     },
@@ -110,10 +119,7 @@ export default defineComponent({
 
 .coming-bg {
     background-image: url(../images/bg-coming-soon.jpg);
-    background-size: contain;
+    background-size: cover;
 }
-
-
-
 </style>
   
