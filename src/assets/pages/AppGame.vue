@@ -5,6 +5,7 @@
       <div class="row">
 
          <div class="col-4" :class="{'overflow-y-scroll' : !playerData}" id="playerCard">
+            
             <!-- <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
                <label for="character">Select your character</label>
                <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}
@@ -48,6 +49,7 @@
          <div class="col-4" id="consoleCard">
 
             <div v-if="characterSelected" id="playerPreview">
+
                <div class="row justify-content-center ">
                   <div class="col-5">
                      <img :src="store.imagePath + characterSelected.img" :alt="characterSelected.name">
@@ -66,9 +68,7 @@
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
                            </div>
                         </div>
-   
                      </div>
-
                   </div>
 
                   <div class="col-8 mt-3">
@@ -76,6 +76,10 @@
                   </div>
                </div>
 
+            </div>
+
+            <div v-if="game" class="mb-3">
+               <h1>Game: {{ game }}</h1>
             </div>
 
             <h2 id="startPlayer" class="mb-3"></h2>
@@ -122,90 +126,14 @@
          </div>
 
       </div>
-      <div class="text-center my-5 " v-if="computerData && playerData">
+
+      <div class="my-5" v-if="computerData && playerData && !results">
          <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
       </div>
-
-
-
-
-
-
-      <!-- <div v-if="playerData">
-         <div class="d-flex gap-5 ">
-
-            <div class="card mb-3" id="playerCard">
-               <h1>{{ playerData.name }}</h1>
-               <h3>Stats</h3>
-               <div class="d-flex gap-5">
-                  <h4>Life: {{ playerData.life }}</h4>
-                  <h4>Att: {{ playerData.attack }}</h4>
-                  <h4>Def: {{ playerData.defence }}</h4>
-                  <h4>Speed: {{ playerData.speed }}</h4>
-               </div>
-
-               <div>
-                  <h2>Current Life: <span id="playerLife"></span></h2>
-                  <div class="life_bar">
-                     <div class="progress"></div>
-                  </div>
-               </div>
-
-               <div v-for="item in playerData.items">
-                   <p>{{ item.name }}</p>
-                  <img :src="item.img" :alt="item.name">
-
-               </div>
-            </div>
-
-            <div v-if="computerData">
-               <div class="card mb-3" id="computerCard">
-                  <h1>{{ computerData.name }}</h1>
-                  <h3>Stats</h3>
-                  <div class="d-flex gap-5">
-                     <h4>Life: {{ computerData.life }}</h4>
-                     <h4>Att: {{ computerData.attack }}</h4>
-                     <h4>Def: {{ computerData.defence }}</h4>
-                     <h4>Speed: {{ computerData.speed }}</h4>
-                  </div>
-
-                  <div>
-                  <h2>Current Life: <span id="computerLife"></span></h2>
-                  <div class="life_bar">
-                     <div class="progress"></div>
-                  </div>
-               </div>
-
-               <div v-for="item in computerData.items">
-                     <p>{{ item.name }}</p>
-                     <img :src="item.img" :alt="item.name">
-
-                  </div>
-               </div>
-            </div>
-
-         </div>
-
-         <div v-if="!computerData">
-            <button @click="generateComputerCharacter()">Genera</button>
-         </div>
-         <div v-if="computerData && playerData">
-            <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
-         </div>
+      <div v-if="results" class="d-flex gap-5 my-5">
+         <button @click="resetBattle()">Reset</button>
+         <button @click="revengeBattle()">Revenge</button>
       </div>
-      
-
-      <div class="d-flex gap-5 ">
-         <div class="d-none" id="roundEl">
-            <h3>Round <span id="roundNumber"></span></h3>
-         </div>
-         <div v-if="results" class="mb-3">
-            <h1>{{ results }}</h1>
-         </div>
-
-      </div> -->
-
-
 
    </div>
 </template>
@@ -223,6 +151,7 @@ export default {
          characterSelected: "",
          results: "",
          round: 0,
+         game: 0,
       }
    },
    methods: {
@@ -384,6 +313,22 @@ export default {
             return console.log('player win');
          }
       },
+
+      revengeBattle() {
+         this.results = '';
+         this.playerData = '';
+         let progress = document.querySelectorAll('.progress');
+         progress[1].style.width = '100%';
+         document.querySelector('#computerLife').textContent = '';
+         this.game++;
+      },
+      resetBattle() {
+         this.playerData = '';
+         this.computerData = '';
+         this.results = '';
+         this.game = 0;
+      }
+
    },
 
    mounted() {
