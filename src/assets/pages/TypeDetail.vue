@@ -17,25 +17,31 @@
       </div>
 
       <!-- related characters  -->
-      <h4 class="text-center mb-3">
-        All characters with {{ type.name }} class
-      </h4>
-      <div class="row justify-content-center mb-5">
-        <div v-for="character in type.characters" class="col-2 text-center">
-          <router-link
-            :to="{ name: 'single-character', params: { slug: character.slug } }"
+      <div class="w-100">
+        <h4 class="text-center mb-3">
+          All characters with {{ type.name }} class
+        </h4>
+        <div class="row justify-content-center mb-5">
+          <div
+            v-for="character in type.characters"
+            class="col-6 col-mb-4 col-lg-3 col-xl-2 text-center mb-3"
           >
-            <basicCard :el="character" />
-          </router-link>
+            <router-link
+              :to="{
+                name: 'single-character',
+                params: { slug: character.slug },
+              }"
+            >
+              <basicCard :el="character" />
+            </router-link>
+          </div>
         </div>
       </div>
 
       <div class="text-center">
         <router-link :to="{ name: 'types' }">
-        <button class="gold-button">
-           Back to All Types
-        </button>
-      </router-link>
+          <button class="gold-button">Back to All Types</button>
+        </router-link>
       </div>
     </main>
   </div>

@@ -42,7 +42,7 @@
       </div>
 
       <!-- related characters  -->
-      <div v-if="item.characters.length > 0">
+      <div v-if="item.characters.length > 0" class="w-100">
         <h4 class="text-center mb-3">
           All characters with {{ item.name }} equipped
         </h4>
