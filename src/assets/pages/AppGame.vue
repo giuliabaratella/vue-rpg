@@ -4,14 +4,100 @@
 
 
       <h1>Play</h1>
-      <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
-         <label for="character">Select your character</label>
-         <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
-      </select>
 
 
-      <div v-if="playerData">
+      <div class="row">
+
+         <div class="col-4" id="playerCard">
+            <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
+               <label for="character">Select your character</label>
+               <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
+            </select>
+
+            <div v-if="playerData">
+               <h1>{{ playerData.name }}</h1>
+                  <h3>Stats</h3>
+                  <div class="d-flex gap-5">
+                     <h4>Life: {{ playerData.life }}</h4>
+                     <h4>Att: {{ playerData.attack }}</h4>
+                     <h4>Def: {{ playerData.defence }}</h4>
+                     <h4>Speed: {{ playerData.speed }}</h4>
+                  </div>
+   
+                  <div>
+                     <h2>Current Life: <span id="playerLife"></span></h2>
+                     <div class="life_bar">
+                        <div class="progress"></div>
+                     </div>
+                  </div>
+   
+                  <div v-for="item in playerData.items">
+                     <!-- <p>{{ item.name }}</p> -->
+                     <img :src="store.imagePath + item.img" :alt="item.name">
+   
+                  </div>
+            </div>
+
+         </div>
+
+
+         <div class="col-4" id="consoleCard">
+
+            <h2 id="startPlayer" class="mb-3"></h2>
+
+            <div class="d-flex gap-5 ">
+               <div class="d-none" id="roundEl">
+                  <h3>Round <span id="roundNumber"></span></h3>
+               </div>
+               <div v-if="results" class="mb-3">
+                  <h1>{{ results }}</h1>
+               </div>
+
+            </div>
+         </div>
+
+         <div class="col-4" id="computerCard">
+
+            <div v-if="!computerData">
+            <button @click="generateComputerCharacter()">Genera</button>
+         </div>
+            
+            <div v-if="computerData">
+               <h1>{{ computerData.name }}</h1>
+                     <h3>Stats</h3>
+                     <div class="d-flex gap-5">
+                        <h4>Life: {{ computerData.life }}</h4>
+                        <h4>Att: {{ computerData.attack }}</h4>
+                        <h4>Def: {{ computerData.defence }}</h4>
+                        <h4>Speed: {{ computerData.speed }}</h4>
+                     </div>
+                     <div>
+                     <h2>Current Life: <span id="computerLife"></span></h2>
+                     <div class="life_bar">
+                        <div class="progress"></div>
+                     </div>
+                     <div v-for="item in computerData.items">
+                        <!-- <p>{{ item.name }}</p> -->
+                        <img :src="store.imagePath + item.img" :alt="item.name">
+                     </div>
+                  </div>
+            </div>
+
+         </div>
+
+      </div>
+      <div v-if="computerData && playerData">
+         <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
+      </div>
+
+
+
+
+
+
+      <!-- <div v-if="playerData">
          <div class="d-flex gap-5 ">
+
             <div class="card mb-3" id="playerCard">
                <h1>{{ playerData.name }}</h1>
                <h3>Stats</h3>
@@ -30,11 +116,12 @@
                </div>
 
                <div v-for="item in playerData.items">
-                  <!-- <p>{{ item.name }}</p> -->
+                   <p>{{ item.name }}</p>
                   <img :src="item.img" :alt="item.name">
 
                </div>
             </div>
+
             <div v-if="computerData">
                <div class="card mb-3" id="computerCard">
                   <h1>{{ computerData.name }}</h1>
@@ -54,13 +141,15 @@
                </div>
 
                <div v-for="item in computerData.items">
-                     <!-- <p>{{ item.name }}</p> -->
+                     <p>{{ item.name }}</p>
                      <img :src="item.img" :alt="item.name">
 
                   </div>
                </div>
             </div>
+
          </div>
+
          <div v-if="!computerData">
             <button @click="generateComputerCharacter()">Genera</button>
          </div>
@@ -78,7 +167,10 @@
             <h1>{{ results }}</h1>
          </div>
 
-      </div>
+      </div> -->
+
+
+      
    </div>
 </template>
  
@@ -120,7 +212,7 @@ export default {
       },
 
       characterId() {
-         // console.log(this.characterSelected);
+         console.log(this.characterSelected);
          this.store.characters.forEach(character => {
             // console.log(character);
             if (character.id == this.characterSelected) {
@@ -133,6 +225,7 @@ export default {
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
 
+            document.querySelector('#startPlayer').textContent = `${idAtt} start`;
             const currentCardDef = document.querySelector(`#${idDef}Card`);
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
             // console.log(currentCardDef);
@@ -149,6 +242,8 @@ export default {
 
             }, 3000)
             setTimeout(() => {
+               document.querySelector('#startPlayer').classList.add('d-none');
+
                const defenceDamage = 1 - (def.defence / 100);
                console.log(defenceDamage) 
                def.life -= att.attack * defenceDamage;
@@ -257,6 +352,25 @@ export default {
 </script>
  
 <style lang="scss" scoped>
+@use "../styles/partials/variables" as *; 
+
+.row > .col-4
+{
+   aspect-ratio: 1;
+}
+
+#computerCard,
+#playerCard
+{
+   background-color: #44324C;
+   img
+   {
+      height: 4rem;
+      width: 4rem;
+   }
+}
+
+
 .animation-dx {
    position: relative;
    animation-name: attackDx;
@@ -307,6 +421,6 @@ export default {
 {
    transition: 1s;
    width: 100%;
-   background-color: red;
+   background-color: yellow;
 }
 </style>
