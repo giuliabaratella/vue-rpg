@@ -3,12 +3,20 @@
 
       <h1>Play</h1>
       <div class="row">
-         <div class="col-4" id="playerCard">
-            <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
+
+         <div class="col-4" :class="{'overflow-y-scroll' : !playerData}" id="playerCard">
+            <!-- <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
                <label for="character">Select your character</label>
                <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}
                </option>
-            </select>
+            </select> -->
+
+            <div class="m-3" v-if="!playerData">
+               <div @click="selectCharacter(character)" v-for="character in this.store.characters">
+                  <img :src="store.imagePath + character.img" :alt="character.name">
+                  {{ character.name }}
+               </div>
+            </div>
 
             <div v-if="playerData">
                <h1>{{ playerData.name }}</h1>
@@ -39,10 +47,42 @@
 
          <div class="col-4" id="consoleCard">
 
+            <div v-if="characterSelected" id="playerPreview">
+               <div class="row justify-content-center ">
+                  <div class="col-5">
+                     <img :src="store.imagePath + characterSelected.img" :alt="characterSelected.name">
+                  </div>
+
+                  <div class="col-7">
+                     <div class="ms-3">
+                        <h3>{{ characterSelected.name }}</h3>
+                        <h5>attack: {{ characterSelected.attack }}</h5>
+                        <h5>defence: {{ characterSelected.defence }}</h5>
+                        <h5>life: {{ characterSelected.life }}</h5>
+                        <h5>speed: {{ characterSelected.speed }}</h5>
+   
+                        <div class="d-flex">
+                           <div v-for="item in characterSelected.items">
+                              <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
+                           </div>
+                        </div>
+   
+                     </div>
+
+                  </div>
+
+                  <div class="col-8 mt-3">
+                     <button @click="confirmCharacter()">Confirm</button>
+                  </div>
+               </div>
+
+            </div>
+
             <h2 id="startPlayer" class="mb-3"></h2>
 
             <div class="d-flex gap-5 ">
                <div class="d-none" id="roundEl">
+                  <img src="" alt="">
                   <h3>Round <span id="roundNumber"></span></h3>
                </div>
                <div v-if="results" class="mb-3">
@@ -54,7 +94,7 @@
 
          <div class="col-4" id="computerCard">
 
-            <div v-if="!computerData">
+            <div v-if="!computerData && playerData">
                <button @click="generateComputerCharacter()">Genera</button>
             </div>
 
@@ -82,7 +122,7 @@
          </div>
 
       </div>
-      <div v-if="computerData && playerData">
+      <div class="text-center my-5 " v-if="computerData && playerData">
          <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
       </div>
 
@@ -186,17 +226,12 @@ export default {
       }
    },
    methods: {
-
-      //genera carta random computer
+         
       generateComputerCharacter() {
-         axios.get(store.apiUrl + '/characters')
-            .then((res) => {
-               const lastCharacterIndex = res.data.results.length - 1;
-               const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
-               console.log(res.data.results);
-               this.computerData = res.data.results[randomIndex];
-               console.log(this.computerData);
-            })
+         const lastCharacterIndex = store.characters.length - 1;
+         const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
+         this.computerData = store.characters[randomIndex];
+         console.log(this.computerData);
       },
 
       allCharacters() {
@@ -207,16 +242,28 @@ export default {
             })
       },
 
-      characterId() {
+      // characterId() {
+      //    console.log(this.characterSelected);
+      //    this.store.characters.forEach(character => {
+      //       // console.log(character);
+      //       if (character.id == characterSelected) {
+      //          this.playerData = character;
+      //       }
+      //    });
+      //    console.log(this.playerData)
+      // },
+
+      selectCharacter(character) {
+         this.characterSelected = character;
          console.log(this.characterSelected);
-         this.store.characters.forEach(character => {
-            // console.log(character);
-            if (character.id == this.characterSelected) {
-               this.playerData = character;
-            }
-         });
-         console.log(this.playerData)
       },
+
+      confirmCharacter() {
+         this.playerData = this.characterSelected;
+
+         document.querySelector('#playerPreview').classList.add('d-none');    
+      },
+
 
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
@@ -355,12 +402,26 @@ export default {
 
 #computerCard,
 #playerCard {
-   background-color: #44324C;
+   background: $color-fade-1;
 
    img {
-      height: 4rem;
+      height: auto;
       width: 4rem;
    }
+}
+
+#playerPreview
+{
+   aspect-ratio: 1;
+   background: $color-fade-1;
+   border-radius: 1rem;
+   margin: 2rem;
+   padding: 1rem;
+
+   // img
+   // {
+   //    width: 40%;
+   // }
 }
 
 
@@ -413,6 +474,6 @@ export default {
 .progress {
    transition: 1s;
    width: 100%;
-   background-color: yellow;
+   background-color: $color-primary;
 }
 </style>
