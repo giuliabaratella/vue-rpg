@@ -1,8 +1,7 @@
 <template>
-   
    <div class="container">
-      
-      
+
+
       <div class="d-flex gap-5 ">
          <div class="d-none" id="roundEl">
             <h3>Round <span id="roundNumber"></span></h3>
@@ -20,7 +19,7 @@
          <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
       </select>
 
-      
+
       <div v-if="playerData">
          <div class="d-flex gap-5 ">
             <div class="card mb-3" id="playerCard">
@@ -36,11 +35,11 @@
                <div v-for="item in playerData.items">
                   <!-- <p>{{ item.name }}</p> -->
                   <img :src="item.img" :alt="item.name">
-                  
+
                </div>
             </div>
             <div v-if="computerData">
-               <div class="card mb-3"  id="computerCard">
+               <div class="card mb-3" id="computerCard">
                   <h1>{{ computerData.name }}</h1>
                   <h3>Stats</h3>
                   <div class="d-flex gap-5">
@@ -51,10 +50,10 @@
                   </div>
                   <h2>Current Life: <span id="computerLife"></span></h2>
                   <div v-for="item in computerData.items">
-                  <!-- <p>{{ item.name }}</p> -->
-                  <img :src="item.img" :alt="item.name">
-                  
-               </div>
+                     <!-- <p>{{ item.name }}</p> -->
+                     <img :src="item.img" :alt="item.name">
+
+                  </div>
                </div>
             </div>
          </div>
@@ -63,6 +62,9 @@
          </div>
          <div v-if="computerData && playerData">
             <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
+         </div>
+         <div v-if="results" id="results">
+            <h3>{{ results }}</h3>
          </div>
       </div>
    </div>
@@ -116,22 +118,30 @@ export default {
          console.log(this.playerData)
       },
 
-      async startTurn(att, def, id) {
+      async startTurn(att, def, idDef, idAtt, playerTurn) {
          return new Promise((resolve) => {
 
-            const currentCard = document.querySelector(`#${id}Card`);
+            const currentCardDef = document.querySelector(`#${idDef}Card`);
+            const currentCardAtt = document.querySelector(`#${idAtt}Card`);
+            console.log(currentCardDef);
+            console.log(currentCardAtt);
 
+            currentCardAtt.classList.remove('animation-dx');
+            currentCardAtt.classList.remove('animation-sx');
             setTimeout(() => {
+               if (playerTurn) {
+                  currentCardAtt.classList.add('animation-dx');
+               } else {
+                  currentCardAtt.classList.add('animation-sx');
+               }
                // currentCard.textContent = 'sdafadsf';
-               currentCard.classList.add('card_active');
 
             }, 4000)
             setTimeout(() => {
                def.life -= att.attack;
 
-               document.querySelector(`#${id}Life`).textContent = def.life;
-
-               currentCard.classList.remove('card_active');
+               document.querySelector(`#${idDef}Life`).textContent = def.life;
+               // currentCard.classList.remove('animation');
 
                resolve();
             }, 4000)
@@ -141,12 +151,12 @@ export default {
       async startRound(round) {
          return new Promise((resolve) => {
             const roundCounterEl = document.querySelector('#roundEl');
-            
+
             setTimeout(() => {
                document.querySelector('#roundNumber').textContent = round;
                roundCounterEl.classList.remove('d-none');
                console.log('Round1');
-               
+
             }, 2000)
             setTimeout(() => {
                roundCounterEl.classList.add('d-none');
@@ -183,25 +193,25 @@ export default {
 
          while (!gameOver) {
             console.log(playerTurn);
-            
+
             if (turn % 2 === 0) {
                await this.startRound(round);
 
                // console.log('round: ' + round);
-               
+
                round++
             }
-            
+
             turn++;
-            
-            
+
+
             if (playerTurn) {
-               await this.startTurn(player, computer, computerId);
+               await this.startTurn(player, computer, computerId, playerId, playerTurn);
             } else {
-               await this.startTurn(computer, player, playerId);
+               await this.startTurn(computer, player, playerId, computerId, playerTurn);
             };
             playerTurn = !playerTurn;
-            
+
             if (player.life <= 0 || computer.life <= 0) {
                gameOver = true;
             };
@@ -225,12 +235,49 @@ export default {
 </script>
  
 <style lang="scss" scoped>
-
-.card_active
-{
-   // transition: 1s;
-   transform: scale(1.1);
+.animation-dx {
+   position: relative;
+   animation-name: attackDx;
+   animation-duration: 4s;
 }
 
+@keyframes attackDx {
+   0% {
+      left: 0px;
+      top: 0px;
+   }
 
+   50% {
+      left: 200px;
+      top: 0px;
+   }
+
+   100% {
+      left: 0px;
+      top: 0px;
+   }
+}
+
+.animation-sx {
+   position: relative;
+   animation-name: attackSx;
+   animation-duration: 4s;
+}
+
+@keyframes attackSx {
+   0% {
+      right: 0px;
+      top: 0px;
+   }
+
+   50% {
+      right: 200px;
+      top: 0px;
+   }
+
+   100% {
+      right: 0px;
+      top: 0px;
+   }
+}
 </style>
