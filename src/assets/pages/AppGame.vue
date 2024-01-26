@@ -24,7 +24,7 @@
                <h3>Stats</h3>
                <div class="d-flex gap-5">
                   <h4>Life: {{ playerData.life }}</h4>
-                  <h4>Att: {{ playerData.attack }}</h4>
+                  <h4>Att: {{ attackPlayer }}</h4>
                   <h4>Def: {{ playerData.defence }}</h4>
                   <h4>Speed: {{ playerData.speed }}</h4>
                </div>
@@ -58,14 +58,15 @@
                   <div class="col-7">
                      <div class="ms-3">
                         <h3>{{ characterSelected.name }}</h3>
-                        <h5>attack: {{ characterSelected.attack }}</h5>
+                        <h5>attack: {{ characterSelected.attack }} <span id="playerAttackIncreased"></span></h5>
                         <h5>defence: {{ characterSelected.defence }}</h5>
                         <h5>life: {{ characterSelected.life }}</h5>
                         <h5>speed: {{ characterSelected.speed }}</h5>
 
-                        <div class="d-flex">
-                           <div v-for="item in characterSelected.items">
+                        <div class="d-flex" id="selectItems">
+                           <div @click="selectItem(item, characterSelected.attack, item)" v-for="item in characterSelected.items">
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
+                              <span>{{ item.attack }}</span>
                            </div>
                         </div>
                      </div>
@@ -98,16 +99,16 @@
 
          <div class="col-4" id="computerCard">
 
-            <div v-if="!computerData && playerData">
+            <!-- <div v-if="!computerData && playerData">
                <button @click="generateComputerCharacter()">Genera</button>
-            </div>
+            </div> -->
 
             <div v-if="computerData">
                <h1>{{ computerData.name }}</h1>
                <h3>Stats</h3>
                <div class="d-flex gap-5">
                   <h4>Life: {{ computerData.life }}</h4>
-                  <h4>Att: {{ computerData.attack }}</h4>
+                  <h4>Att: {{ attackComputer }} </h4>
                   <h4>Def: {{ computerData.defence }}</h4>
                   <h4>Speed: {{ computerData.speed }}</h4>
                </div>
@@ -141,6 +142,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../../data/store';
+
 export default {
    name: 'AppGame',
    data() {
@@ -149,19 +151,22 @@ export default {
          playerData: null,
          computerData: null,
          characterSelected: "",
+         attackPlayer: '',
+         attackComputer: '',
          results: "",
          round: 0,
          game: 0,
       }
    },
    methods: {
+      
 
-      generateComputerCharacter() {
-         const lastCharacterIndex = store.characters.length - 1;
-         const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
-         this.computerData = store.characters[randomIndex];
-         console.log(this.computerData);
-      },
+      // generateComputerCharacter() {
+      //    const lastCharacterIndex = store.characters.length - 1;
+      //    const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
+      //    this.computerData = store.characters[randomIndex];
+      //    console.log(this.computerData);
+      // },
 
       allCharacters() {
          axios.get(store.apiUrl + '/characters')
@@ -171,28 +176,45 @@ export default {
             })
       },
 
-      // characterId() {
-      //    console.log(this.characterSelected);
-      //    this.store.characters.forEach(character => {
-      //       // console.log(character);
-      //       if (character.id == characterSelected) {
-      //          this.playerData = character;
-      //       }
-      //    });
-      //    console.log(this.playerData)
-      // },
-
       selectCharacter(character) {
          this.characterSelected = character;
          console.log(this.characterSelected);
       },
 
       confirmCharacter() {
-         this.playerData = this.characterSelected;
+         if (this.attackPlayer) {
+            this.playerData = this.characterSelected;
+   
+            const lastCharacterIndex = store.characters.length - 1;
+            const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
+            const rndCharacter = store.characters[randomIndex];
+   
+            rndCharacter.items[0].attack >= rndCharacter.items[1].attack ?
+            this.attackComputer = rndCharacter.items[0].attack + rndCharacter.attack :
+            this.attackComputer = rndCharacter.items[1].attack + rndCharacter.attack;
+            
+            this.computerData = rndCharacter;
+            console.log(this.computerData);
+            console.log(this.attackComputer);
+   
+            document.querySelector('#playerPreview').classList.add('d-none');
+         } else {
+            console.log(document.querySelectorAll('#selectItems > div'))
+            document.querySelectorAll('#selectItems > div')[0].classList.add('selectItemsAlerts');
+            document.querySelectorAll('#selectItems > div')[1].classList.add('selectItemsAlerts');
 
-         document.querySelector('#playerPreview').classList.add('d-none');
+         }
       },
 
+      selectItem(item, characterAttack, i) {
+         console.log(i);
+         document.querySelectorAll('#selectItems > div')[0].classList.remove('selectItemsAlerts');
+         document.querySelectorAll('#selectItems > div')[1].classList.remove('selectItemsAlerts');
+
+         let totAttack = item.attack + characterAttack;
+         document.querySelector('#playerAttackIncreased').textContent = `(${totAttack})`;
+         this.attackPlayer = totAttack;
+      },
 
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
@@ -218,7 +240,7 @@ export default {
 
                const defenceDamage = 1 - (def.defence / 100);
                console.log(defenceDamage)
-               def.life -= att.attack * defenceDamage;
+               def.life -= att * defenceDamage;
                console.log(def.life);
 
                let percent = def.life / life.life * 100;
@@ -293,9 +315,9 @@ export default {
 
 
             if (playerTurn) {
-               await this.startTurn(player, computer, computerId, playerId, playerTurn, computerData);
+               await this.startTurn(this.attackPlayer, computer, computerId, playerId, playerTurn, computerData);
             } else {
-               await this.startTurn(computer, player, playerId, computerId, playerTurn, playerData);
+               await this.startTurn(this.attackComputer, player, playerId, computerId, playerTurn, playerData);
             };
             playerTurn = !playerTurn;
 
@@ -317,6 +339,7 @@ export default {
       revengeBattle() {
          this.results = '';
          this.playerData = '';
+         this.attackPlayer = '';
          let progress = document.querySelectorAll('.progress');
          progress[1].style.width = '100%';
          document.querySelector('#computerLife').textContent = '';
@@ -326,6 +349,7 @@ export default {
       resetBattle() {
          this.playerData = '';
          this.computerData = '';
+         this.attackPlayer = '';
          this.results = '';
          this.game = 0;
          this.selectCharacter();
@@ -336,6 +360,7 @@ export default {
    mounted() {
       this.allCharacters();
       // this.generateComputerCharacter();
+      
    }
 }
 </script>
@@ -363,11 +388,14 @@ export default {
    border-radius: 1rem;
    margin: 2rem;
    padding: 1rem;
+}
 
-   // img
-   // {
-   //    width: 40%;
-   // }
+.selectItemsAlerts {
+   border: solid 2px red;
+}
+
+.active_items {
+   border: solid 2px green;
 }
 
 
