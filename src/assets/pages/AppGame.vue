@@ -1,8 +1,6 @@
 <template>
    <div class="container">
 
-      <p>ciso</p>
-
       <h1>Play</h1>
       <div class="row">
          <div class="col-4" id="playerCard">
@@ -185,7 +183,6 @@ export default {
          characterSelected: "",
          results: "",
          round: 0,
-         ciao: ''
       }
    },
    methods: {
