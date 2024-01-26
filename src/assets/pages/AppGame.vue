@@ -4,38 +4,36 @@
       <p>ciso</p>
 
       <h1>Play</h1>
-
-
       <div class="row">
-
          <div class="col-4" id="playerCard">
             <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
                <label for="character">Select your character</label>
-               <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}</option>
+               <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}
+               </option>
             </select>
 
             <div v-if="playerData">
                <h1>{{ playerData.name }}</h1>
-                  <h3>Stats</h3>
-                  <div class="d-flex gap-5">
-                     <h4>Life: {{ playerData.life }}</h4>
-                     <h4>Att: {{ playerData.attack }}</h4>
-                     <h4>Def: {{ playerData.defence }}</h4>
-                     <h4>Speed: {{ playerData.speed }}</h4>
+               <h3>Stats</h3>
+               <div class="d-flex gap-5">
+                  <h4>Life: {{ playerData.life }}</h4>
+                  <h4>Att: {{ playerData.attack }}</h4>
+                  <h4>Def: {{ playerData.defence }}</h4>
+                  <h4>Speed: {{ playerData.speed }}</h4>
+               </div>
+
+               <div>
+                  <h2>Current Life: <span id="playerLife"></span></h2>
+                  <div class="life_bar">
+                     <div class="progress"></div>
                   </div>
-   
-                  <div>
-                     <h2>Current Life: <span id="playerLife"></span></h2>
-                     <div class="life_bar">
-                        <div class="progress"></div>
-                     </div>
-                  </div>
-   
-                  <div v-for="item in playerData.items">
-                     <!-- <p>{{ item.name }}</p> -->
-                     <img :src="store.imagePath + item.img" :alt="item.name">
-   
-                  </div>
+               </div>
+
+               <div v-for="item in playerData.items">
+                  <!-- <p>{{ item.name }}</p> -->
+                  <img :src="store.imagePath + item.img" :alt="item.name">
+
+               </div>
             </div>
 
          </div>
@@ -59,28 +57,28 @@
          <div class="col-4" id="computerCard">
 
             <div v-if="!computerData">
-            <button @click="generateComputerCharacter()">Genera</button>
-         </div>
-            
+               <button @click="generateComputerCharacter()">Genera</button>
+            </div>
+
             <div v-if="computerData">
                <h1>{{ computerData.name }}</h1>
-                     <h3>Stats</h3>
-                     <div class="d-flex gap-5">
-                        <h4>Life: {{ computerData.life }}</h4>
-                        <h4>Att: {{ computerData.attack }}</h4>
-                        <h4>Def: {{ computerData.defence }}</h4>
-                        <h4>Speed: {{ computerData.speed }}</h4>
-                     </div>
-                     <div>
-                     <h2>Current Life: <span id="computerLife"></span></h2>
-                     <div class="life_bar">
-                        <div class="progress"></div>
-                     </div>
-                     <div v-for="item in computerData.items">
-                        <!-- <p>{{ item.name }}</p> -->
-                        <img :src="store.imagePath + item.img" :alt="item.name">
-                     </div>
+               <h3>Stats</h3>
+               <div class="d-flex gap-5">
+                  <h4>Life: {{ computerData.life }}</h4>
+                  <h4>Att: {{ computerData.attack }}</h4>
+                  <h4>Def: {{ computerData.defence }}</h4>
+                  <h4>Speed: {{ computerData.speed }}</h4>
+               </div>
+               <div>
+                  <h2>Current Life: <span id="computerLife"></span></h2>
+                  <div class="life_bar">
+                     <div class="progress"></div>
                   </div>
+                  <div v-for="item in computerData.items">
+                     <!-- <p>{{ item.name }}</p> -->
+                     <img :src="store.imagePath + item.img" :alt="item.name">
+                  </div>
+               </div>
             </div>
 
          </div>
@@ -170,7 +168,7 @@
       </div> -->
 
 
-      
+
    </div>
 </template>
  
@@ -187,6 +185,7 @@ export default {
          characterSelected: "",
          results: "",
          round: 0,
+         ciao: ''
       }
    },
    methods: {
@@ -230,7 +229,7 @@ export default {
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
             // console.log(currentCardDef);
             // console.log(currentCardAtt);
-            
+
             currentCardAtt.classList.remove('animation-dx');
             currentCardAtt.classList.remove('animation-sx');
             setTimeout(() => {
@@ -245,17 +244,17 @@ export default {
                document.querySelector('#startPlayer').classList.add('d-none');
 
                const defenceDamage = 1 - (def.defence / 100);
-               console.log(defenceDamage) 
+               console.log(defenceDamage)
                def.life -= att.attack * defenceDamage;
                console.log(def.life);
 
                let percent = def.life / life.life * 100;
-               
+
                document.querySelector(`#${idDef}Life`).textContent = def.life > 0 ? def.life : '0';
                let progress = currentCardDef.querySelectorAll('.progress');
 
                progress[0].style.width = percent > 0 ? `${percent}%` : '0%';
-               
+
                // currentCard.classList.remove('animation');
 
                resolve();
@@ -340,7 +339,6 @@ export default {
             this.results = 'player win';
             return console.log('player win');
          }
-
       },
    },
 
@@ -352,19 +350,17 @@ export default {
 </script>
  
 <style lang="scss" scoped>
-@use "../styles/partials/variables" as *; 
+@use "../styles/partials/variables" as *;
 
-.row > .col-4
-{
+.row>.col-4 {
    aspect-ratio: 1;
 }
 
 #computerCard,
-#playerCard
-{
+#playerCard {
    background-color: #44324C;
-   img
-   {
+
+   img {
       height: 4rem;
       width: 4rem;
    }
@@ -417,8 +413,7 @@ export default {
    }
 }
 
-.progress
-{
+.progress {
    transition: 1s;
    width: 100%;
    background-color: yellow;
