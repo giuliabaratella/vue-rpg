@@ -47,13 +47,13 @@
                   </div>
 
                   <div>
-                  <h2>Current Life: <span id="computerLife"></span></h2>
-                  <div class="life_bar">
-                     <div class="progress"></div>
+                     <h2>Current Life: <span id="computerLife"></span></h2>
+                     <div class="life_bar">
+                        <div class="progress"></div>
+                     </div>
                   </div>
-               </div>
 
-               <div v-for="item in computerData.items">
+                  <div v-for="item in computerData.items">
                      <!-- <p>{{ item.name }}</p> -->
                      <img :src="item.img" :alt="item.name">
 
@@ -68,7 +68,7 @@
             <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
          </div>
       </div>
-      
+
 
       <div class="d-flex gap-5 ">
          <div class="d-none" id="roundEl">
@@ -77,7 +77,8 @@
          <div v-if="results" class="mb-3">
             <h1>{{ results }}</h1>
          </div>
-
+         <h2 id="startPlayer" class="mb-3">
+         </h2>
       </div>
    </div>
 </template>
@@ -133,11 +134,13 @@ export default {
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
 
+            document.querySelector('#startPlayer').textContent = `${idAtt}` + ' start';
+
             const currentCardDef = document.querySelector(`#${idDef}Card`);
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
             // console.log(currentCardDef);
             // console.log(currentCardAtt);
-            
+
             currentCardAtt.classList.remove('animation-dx');
             currentCardAtt.classList.remove('animation-sx');
             setTimeout(() => {
@@ -149,18 +152,19 @@ export default {
 
             }, 3000)
             setTimeout(() => {
+               document.querySelector('#startPlayer').classList.add('d-none');
                const defenceDamage = 1 - (def.defence / 100);
-               console.log(defenceDamage) 
+               console.log(defenceDamage)
                def.life -= att.attack * defenceDamage;
                console.log(def.life);
 
                let percent = def.life / life.life * 100;
-               
+
                document.querySelector(`#${idDef}Life`).textContent = def.life > 0 ? def.life : '0';
                let progress = currentCardDef.querySelectorAll('.progress');
 
                progress[0].style.width = percent > 0 ? `${percent}%` : '0%';
-               
+
                // currentCard.classList.remove('animation');
 
                resolve();
@@ -303,8 +307,7 @@ export default {
    }
 }
 
-.progress
-{
+.progress {
    transition: 1s;
    width: 100%;
    background-color: red;
