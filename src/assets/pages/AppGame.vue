@@ -4,8 +4,8 @@
       <h1>Play</h1>
       <div class="row">
 
-         <div class="col-4" :class="{'overflow-y-scroll' : !playerData}" id="playerCard">
-            
+         <div class="col-4" :class="{ 'overflow-y-scroll': !playerData }" id="playerCard">
+
             <!-- <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
                <label for="character">Select your character</label>
                <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}
@@ -62,7 +62,7 @@
                         <h5>defence: {{ characterSelected.defence }}</h5>
                         <h5>life: {{ characterSelected.life }}</h5>
                         <h5>speed: {{ characterSelected.speed }}</h5>
-   
+
                         <div class="d-flex">
                            <div v-for="item in characterSelected.items">
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
@@ -155,7 +155,7 @@ export default {
       }
    },
    methods: {
-         
+
       generateComputerCharacter() {
          const lastCharacterIndex = store.characters.length - 1;
          const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
@@ -190,7 +190,7 @@ export default {
       confirmCharacter() {
          this.playerData = this.characterSelected;
 
-         document.querySelector('#playerPreview').classList.add('d-none');    
+         document.querySelector('#playerPreview').classList.add('d-none');
       },
 
 
@@ -321,12 +321,14 @@ export default {
          progress[1].style.width = '100%';
          document.querySelector('#computerLife').textContent = '';
          this.game++;
+         this.selectCharacter();
       },
       resetBattle() {
          this.playerData = '';
          this.computerData = '';
          this.results = '';
          this.game = 0;
+         this.selectCharacter();
       }
 
    },
@@ -355,8 +357,7 @@ export default {
    }
 }
 
-#playerPreview
-{
+#playerPreview {
    aspect-ratio: 1;
    background: $color-fade-1;
    border-radius: 1rem;
