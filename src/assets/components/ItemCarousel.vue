@@ -2,10 +2,12 @@
   <!-- Items carousel  -->
   <section>
     <div class="container">
+      <div class="section-label">
+        <img src="../images/rpg_logo_high_white.png" alt="logo" />
+        <h3>Most rated items</h3>
+      </div>
+
       <div class="row justify-content-center">
-        <div class="col-12 col-lg-8 text-center">
-          <h4>Most rated items</h4>
-        </div>
         <Carousel
           :autoplay="3000"
           v-bind="settings"
@@ -13,7 +15,7 @@
           :wrap-around="true"
           class="py-5"
         >
-          <slide v-for="(el, index) in store.items" :key="index">
+          <slide v-for="(item, index) in store.items" :key="index">
             <basicCard :el="item" />
           </slide>
         </Carousel>
@@ -40,18 +42,7 @@ export default {
     return {
       store,
       settings: {
-        itemsToShow: 1.5,
-      },
-      breakpoints: {
-        700: {
-          itemsToShow: 1.5,
-        },
-        1024: {
-          itemsToShow: 2.5,
-        },
-        1280: {
-          itemsToShow: 3.5,
-        },
+        itemsToShow: 5,
       },
     };
   },
@@ -61,5 +52,8 @@ export default {
 <style lang="scss" scoped>
 .carousel__slide {
   padding: 10px;
+}
+p {
+  font-size: 1.5rem;
 }
 </style>
