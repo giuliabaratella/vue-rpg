@@ -1,75 +1,96 @@
 <template>
     <header>
         <nav class="navbar navbar-expand-lg p-0">
-            <div class="container-fluid overflow-hidden ">
-                <button id="navbar-toggler" @click="toggleButton()" :class="{ 'my-3': show }" class="navbar-toggler ms-1 my-2" type="button" data-bs-toggle="collapse"
+            <div class="container-fluid overflow-hidden">
+                <button id="navbar-toggler" @click="toggleButton()" :class="{ 'my-3': show }"
+                    class="navbar-toggler ms-1 my-2" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" :class="{ 'show': show }" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" :class="{ show: show }" id="navbarSupportedContent">
                     <div id="logo" class="py-2 mx-1 me-3" :class="{ 'd-none': show }">
                         <router-link :to="{ name: 'home' }">
-                            <img src="../images/rpg_logo_high_white.png" alt="rpg-logo">
+                            <img src="../images/rpg_logo_high_white.png" alt="rpg-logo" />
                         </router-link>
                     </div>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item" v-for="route in navroutes">
-                            <router-link class="nav-link fs-5 me-3 fw-bold" :class="{'hover-none': show }" :to="{ name: route.name }">
+                            <router-link class="nav-link fs-5 me-3 fw-bold" :class="{ 'hover-none': show }"
+                                :to="{ name: route.name }">
                                 {{ route.label }}
                             </router-link>
                         </li>
                     </ul>
                 </div>
-                <div id="buy-now" :class="{ 'd-none': show }">
-                    <img src="../images/Y_-so0KcYkEE0aHtBn1jRuOEik.png" alt="buy-now-cta-button">
+                <!-- admin -->
+                <div class="d-flex mt-2">
+                    <div class="btn-group d-flex flex-column m-2 dropdown ">
+                        <button @click="toggleAdmin">
+                            <i class="fa-solid fa-user"><span>Admin</span></i>
+                        </button>
+                        <div  class="dropdown-content">
+                            <div class="dropdown-item ">
+                                <h6><a v-if="active" class=" text-decoration-none text-black bg-warning mt-1" href="http://127.0.0.1:8000/">Go to admin page</a></h6>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                    <div id="buy-now" :class="{ 'd-none': show }">
+                        <img src="../images/Y_-so0KcYkEE0aHtBn1jRuOEik.png" alt="buy-now-cta-button" />
+                    </div>
                 </div>
             </div>
+
         </nav>
     </header>
 </template>
 
 <script>
-
 export default {
     name: "NavbarComponent",
-    components: {
-    },
+    components: {},
     data() {
         return {
-            navroutes:
-                [
-                    {
-                        label: "Characters",
-                        name: "characters",
-                    },
-                    {
-                        label: "Items",
-                        name: "items",
-                    },
-                    {
-                        label: "Types",
-                        name: "types",
-                    },
-                    {
-                        label: "Game",
-                        name: "game",
-                    },
-                ],
-            show: false
-        }
+            navroutes: [
+                {
+                    label: "Characters",
+                    name: "characters",
+                },
+                {
+                    label: "Items",
+                    name: "items",
+                },
+                {
+                    label: "Types",
+                    name: "types",
+                },
+                {
+                    label: "Game",
+                    name: "game",
+                },
+            ],
+            show: false,
+            active: false
+        };
     },
     methods: {
         toggleButton() {
-            this.show = !this.show
+            this.show = !this.show;
+        },
+        getActive() {
+            return (this.active);
+        },
+        toggleAdmin() {
+            this.active = !this.active
         }
-        
-    }
+    },
 };
 </script>
 
 <style lang="scss" scoped>
-@use '../styles/partials/variables' as *;
+@use "../styles/partials/variables" as *;
 
 nav {
     background-color: $color-bg-dark;
@@ -130,6 +151,20 @@ nav {
         filter: brightness(1.1);
         cursor: pointer;
     }
-    
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-content{
+        position: relative;
+        height: 20px;
+        
+    }
+    .dropdown-item{
+        position: absolute;       
+        z-index: 20;
+    }
+
 }
 </style>
