@@ -13,7 +13,7 @@
               <h1 class="m-0">{{ item.name }}</h1>
               <h5>{{ item.category }}</h5>
             </div>
-            <div class="d-flex flex-column align-items-center">
+            <div class="d-none d-md-flex flex-column align-items-center">
               <h4 mb-1>Cost</h4>
               <div class="cost-box">{{ item.cost }}</div>
             </div>
@@ -21,10 +21,14 @@
 
           <!-- stats  -->
           <div>
-            <div class="d-flex mb-3">
+            <div class="d-flex mb-3 justify-content-between">
               <div class="d-flex flex-column align-items-center">
                 <h4 mb-1>Weight</h4>
                 <div class="stats-box">{{ item.weight }}</div>
+              </div>
+              <div class="d-flex d-md-none flex-column align-items-center">
+                <h4 mb-1>Cost</h4>
+                <div class="cost-box">{{ item.cost }}</div>
               </div>
             </div>
           </div>
@@ -32,12 +36,15 @@
       </div>
 
       <!-- related characters  -->
-      <div v-if="item.characters">
+      <div v-if="item.characters.length > 0">
         <h4 class="text-center mb-3">
           All characters with {{ item.name }} equipped
         </h4>
         <div class="row justify-content-center mb-5">
-          <div v-for="character in item.characters" class="col-2 text-center">
+          <div
+            v-for="character in item.characters"
+            class="col-6 col-md-4 col-lg-3 col-xl-2 text-center mb-3"
+          >
             <router-link
               :to="{
                 name: 'single-character',
