@@ -16,7 +16,11 @@
           class="py-5"
         >
           <slide v-for="(item, index) in store.items" :key="index">
-            <basicCard :el="item" />
+            <router-link
+              :to="{ name: 'single-item', params: { slug: item.slug } }"
+            >
+              <basicCard :el="item" />
+            </router-link>
           </slide>
         </Carousel>
       </div>

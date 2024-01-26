@@ -13,7 +13,7 @@
               <h1 class="m-0">{{ item.name }}</h1>
               <h5>{{ item.category }}</h5>
             </div>
-            <div class="d-none d-md-flex flex-column align-items-center">
+            <div class="d-none d-lg-flex flex-column align-items-center">
               <h4 mb-1>Cost</h4>
               <div class="cost-box">{{ item.cost }}</div>
             </div>
@@ -22,11 +22,17 @@
           <!-- stats  -->
           <div>
             <div class="d-flex mb-3 justify-content-between">
-              <div class="d-flex flex-column align-items-center">
-                <h4 mb-1>Weight</h4>
-                <div class="stats-box">{{ item.weight }}</div>
+              <div class="d-flex">
+                <div class="d-flex flex-column align-items-center">
+                  <h4 mb-1>Att</h4>
+                  <div class="stats-box">+{{ item.attack }}</div>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                  <h4 mb-1>Wt</h4>
+                  <div class="stats-box">{{ item.weight }}</div>
+                </div>
               </div>
-              <div class="d-flex d-md-none flex-column align-items-center">
+              <div class="d-flex d-lg-none flex-column align-items-center">
                 <h4 mb-1>Cost</h4>
                 <div class="cost-box">{{ item.cost }}</div>
               </div>
@@ -57,10 +63,8 @@
         </div>
       </div>
       <router-link :to="{ name: 'items' }">
-        <button class="gold-button">
-          Back to Items
-        </button>
-    </router-link>
+        <button class="gold-button">Back to Items</button>
+      </router-link>
     </main>
   </div>
 </template>
