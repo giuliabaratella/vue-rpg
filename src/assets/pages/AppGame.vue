@@ -2,16 +2,6 @@
    <div class="container">
 
 
-      <div class="d-flex gap-5 ">
-         <div class="d-none" id="roundEl">
-            <h3>Round <span id="roundNumber"></span></h3>
-         </div>
-         <!-- <div class="" id="roundEl">
-            <h3>Round <span id="roundNumber"></span></h3>
-         </div> -->
-
-      </div>
-
 
       <h1>Play</h1>
       <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
@@ -31,7 +21,14 @@
                   <h4>Def: {{ playerData.defence }}</h4>
                   <h4>Speed: {{ playerData.speed }}</h4>
                </div>
-               <h2>Current Life: <span id="playerLife"></span></h2>
+
+               <div>
+                  <h2>Current Life: <span id="playerLife"></span></h2>
+                  <div class="life_bar">
+                     <div class="progress"></div>
+                  </div>
+               </div>
+
                <div v-for="item in playerData.items">
                   <!-- <p>{{ item.name }}</p> -->
                   <img :src="item.img" :alt="item.name">
@@ -48,8 +45,15 @@
                      <h4>Def: {{ computerData.defence }}</h4>
                      <h4>Speed: {{ computerData.speed }}</h4>
                   </div>
+
+                  <div>
                   <h2>Current Life: <span id="computerLife"></span></h2>
-                  <div v-for="item in computerData.items">
+                  <div class="life_bar">
+                     <div class="progress"></div>
+                  </div>
+               </div>
+
+               <div v-for="item in computerData.items">
                      <!-- <p>{{ item.name }}</p> -->
                      <img :src="item.img" :alt="item.name">
 
@@ -63,9 +67,17 @@
          <div v-if="computerData && playerData">
             <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
          </div>
-         <div v-if="results" id="results">
-            <h3>{{ results }}</h3>
+      </div>
+      
+
+      <div class="d-flex gap-5 ">
+         <div class="d-none" id="roundEl">
+            <h3>Round <span id="roundNumber"></span></h3>
          </div>
+         <div v-if="results" class="mb-3">
+            <h1>{{ results }}</h1>
+         </div>
+
       </div>
    </div>
 </template>
@@ -118,14 +130,14 @@ export default {
          console.log(this.playerData)
       },
 
-      async startTurn(att, def, idDef, idAtt, playerTurn) {
+      async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
 
             const currentCardDef = document.querySelector(`#${idDef}Card`);
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
-            console.log(currentCardDef);
-            console.log(currentCardAtt);
-
+            // console.log(currentCardDef);
+            // console.log(currentCardAtt);
+            
             currentCardAtt.classList.remove('animation-dx');
             currentCardAtt.classList.remove('animation-sx');
             setTimeout(() => {
@@ -134,17 +146,25 @@ export default {
                } else {
                   currentCardAtt.classList.add('animation-sx');
                }
-               // currentCard.textContent = 'sdafadsf';
 
-            }, 4000)
+            }, 3000)
             setTimeout(() => {
-               def.life -= att.attack;
+               const defenceDamage = 1 - (def.defence / 100);
+               console.log(defenceDamage) 
+               def.life -= att.attack * defenceDamage;
+               console.log(def.life);
 
-               document.querySelector(`#${idDef}Life`).textContent = def.life;
+               let percent = def.life / life.life * 100;
+               
+               document.querySelector(`#${idDef}Life`).textContent = def.life > 0 ? def.life : '0';
+               let progress = currentCardDef.querySelectorAll('.progress');
+
+               progress[0].style.width = percent > 0 ? `${percent}%` : '0%';
+               
                // currentCard.classList.remove('animation');
 
                resolve();
-            }, 4000)
+            }, 3000)
          })
       },
 
@@ -155,13 +175,13 @@ export default {
             setTimeout(() => {
                document.querySelector('#roundNumber').textContent = round;
                roundCounterEl.classList.remove('d-none');
-               console.log('Round1');
+               // console.log('Round1');
 
             }, 2000)
             setTimeout(() => {
                roundCounterEl.classList.add('d-none');
 
-               console.log('Round2');
+               // console.log('Round2');
                resolve();
             }, 4000)
          })
@@ -206,9 +226,9 @@ export default {
 
 
             if (playerTurn) {
-               await this.startTurn(player, computer, computerId, playerId, playerTurn);
+               await this.startTurn(player, computer, computerId, playerId, playerTurn, computerData);
             } else {
-               await this.startTurn(computer, player, playerId, computerId, playerTurn);
+               await this.startTurn(computer, player, playerId, computerId, playerTurn, playerData);
             };
             playerTurn = !playerTurn;
 
@@ -219,9 +239,11 @@ export default {
          };
 
          if (player.life <= 0) {
-            return console.log('computer win')
+            this.results = 'computer win'
+            return console.log('computer win');
          } else if (computer.life <= 0) {
-            return console.log('player win')
+            this.results = 'player win';
+            return console.log('player win');
          }
 
       },
@@ -238,7 +260,7 @@ export default {
 .animation-dx {
    position: relative;
    animation-name: attackDx;
-   animation-duration: 4s;
+   animation-duration: 0.3s;
 }
 
 @keyframes attackDx {
@@ -248,7 +270,7 @@ export default {
    }
 
    50% {
-      left: 200px;
+      left: 50px;
       top: 0px;
    }
 
@@ -261,7 +283,7 @@ export default {
 .animation-sx {
    position: relative;
    animation-name: attackSx;
-   animation-duration: 4s;
+   animation-duration: 0.3s;
 }
 
 @keyframes attackSx {
@@ -271,7 +293,7 @@ export default {
    }
 
    50% {
-      right: 200px;
+      right: 50px;
       top: 0px;
    }
 
@@ -279,5 +301,12 @@ export default {
       right: 0px;
       top: 0px;
    }
+}
+
+.progress
+{
+   transition: 1s;
+   width: 100%;
+   background-color: red;
 }
 </style>
