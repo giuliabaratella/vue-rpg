@@ -24,7 +24,7 @@
                <h3>Stats</h3>
                <div class="d-flex gap-5">
                   <h4>Life: {{ playerData.life }}</h4>
-                  <h4>Att: {{ attackPlayer }}</h4>
+                  <h4>Att: {{ playerAttack }}</h4>
                   <h4>Def: {{ playerData.defence }}</h4>
                   <h4>Speed: {{ playerData.speed }}</h4>
                </div>
@@ -36,11 +36,15 @@
                   </div>
                </div>
 
-               <div v-for="item in playerData.items">
-                  <!-- <p>{{ item.name }}</p> -->
+               <div>
+                  <img :src="store.imagePath + playerItem.img" :alt="playerItem.name">
+               </div>
+
+               <!-- <div v-for="item in playerData.items">
+                  <p>{{ item.name }}</p>
                   <img :src="store.imagePath + item.img" :alt="item.name">
 
-               </div>
+               </div> -->
             </div>
 
          </div>
@@ -108,7 +112,7 @@
                <h3>Stats</h3>
                <div class="d-flex gap-5">
                   <h4>Life: {{ computerData.life }}</h4>
-                  <h4>Att: {{ attackComputer }} </h4>
+                  <h4>Att: {{ computerAttack }} </h4>
                   <h4>Def: {{ computerData.defence }}</h4>
                   <h4>Speed: {{ computerData.speed }}</h4>
                </div>
@@ -117,10 +121,15 @@
                   <div class="life_bar">
                      <div class="progress"></div>
                   </div>
-                  <div v-for="item in computerData.items">
-                     <!-- <p>{{ item.name }}</p> -->
+
+                  <div>
+                  <img :src="store.imagePath + computerItem.img" :alt="computerItem.name">
+               </div>
+                  
+                  <!-- <div v-for="item in computerData.items">
+                     <p>{{ item.name }}</p>
                      <img :src="store.imagePath + item.img" :alt="item.name">
-                  </div>
+                  </div> -->
                </div>
             </div>
 
@@ -151,8 +160,10 @@ export default {
          playerData: null,
          computerData: null,
          characterSelected: "",
-         attackPlayer: '',
-         attackComputer: '',
+         playerAttack: '',
+         computerAttack: '',
+         playerItem: '',
+         computerItem: '',
          results: "",
          round: 0,
          game: 0,
@@ -160,13 +171,6 @@ export default {
    },
    methods: {
       
-
-      // generateComputerCharacter() {
-      //    const lastCharacterIndex = store.characters.length - 1;
-      //    const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
-      //    this.computerData = store.characters[randomIndex];
-      //    console.log(this.computerData);
-      // },
 
       allCharacters() {
          axios.get(store.apiUrl + '/characters')
@@ -182,20 +186,26 @@ export default {
       },
 
       confirmCharacter() {
-         if (this.attackPlayer) {
+         if (this.playerAttack) {
             this.playerData = this.characterSelected;
    
             const lastCharacterIndex = store.characters.length - 1;
             const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
             const rndCharacter = store.characters[randomIndex];
    
+            // rndCharacter.items[0].attack >= rndCharacter.items[1].attack ?
+            // this.computerAttack = rndCharacter.items[0].attack + rndCharacter.attack :
+            // this.computerAttack = rndCharacter.items[1].attack + rndCharacter.attack;
+
             rndCharacter.items[0].attack >= rndCharacter.items[1].attack ?
-            this.attackComputer = rndCharacter.items[0].attack + rndCharacter.attack :
-            this.attackComputer = rndCharacter.items[1].attack + rndCharacter.attack;
+            this.computerItem = rndCharacter.items[0] :
+            this.computerItem = rndCharacter.items[1];
+
+            this.computerAttack = this.computerItem.attack + rndCharacter.attack;
             
             this.computerData = rndCharacter;
-            console.log(this.computerData);
-            console.log(this.attackComputer);
+            // console.log(this.computerData);
+            // console.log(this.computerAttack);
    
             document.querySelector('#playerPreview').classList.add('d-none');
          } else {
@@ -207,7 +217,6 @@ export default {
       },
 
       selectItem(item, characterAttack, i) {
-         console.log(i);
          document.querySelectorAll('#selectItems > div')[0].classList.remove('selectItemsAlerts', 'active_items');
          document.querySelectorAll('#selectItems > div')[1].classList.remove('selectItemsAlerts', 'active_items');
 
@@ -215,7 +224,8 @@ export default {
 
          let totAttack = item.attack + characterAttack;
          document.querySelector('#playerAttackIncreased').textContent = `(${totAttack})`;
-         this.attackPlayer = totAttack;
+         this.playerAttack = totAttack;
+         this.playerItem = item;
       },
 
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
@@ -317,9 +327,9 @@ export default {
 
 
             if (playerTurn) {
-               await this.startTurn(this.attackPlayer, computer, computerId, playerId, playerTurn, computerData);
+               await this.startTurn(this.playerAttack, computer, computerId, playerId, playerTurn, computerData);
             } else {
-               await this.startTurn(this.attackComputer, player, playerId, computerId, playerTurn, playerData);
+               await this.startTurn(this.computerAttack, player, playerId, computerId, playerTurn, playerData);
             };
             playerTurn = !playerTurn;
 
@@ -341,7 +351,7 @@ export default {
       revengeBattle() {
          this.results = '';
          this.playerData = '';
-         this.attackPlayer = '';
+         this.playerAttack = '';
          let progress = document.querySelectorAll('.progress');
          progress[1].style.width = '100%';
          document.querySelector('#computerLife').textContent = '';
@@ -351,7 +361,7 @@ export default {
       resetBattle() {
          this.playerData = '';
          this.computerData = '';
-         this.attackPlayer = '';
+         this.playerAttack = '';
          this.results = '';
          this.game = 0;
          this.selectCharacter();
