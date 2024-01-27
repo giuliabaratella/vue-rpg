@@ -349,10 +349,13 @@ export default {
 
       revengeBattle() {
          document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
-         this.onGoingBattle = true;
+         // this.onGoingBattle = true;
+
+         setTimeout(() => {
+            this.playerData = '';
+         }, 200)
 
          this.results = '';
-         this.playerData = '';
          this.playerAttack = '';
          let progress = document.querySelectorAll('.progress');
          progress[1].style.width = '100%';
@@ -364,8 +367,11 @@ export default {
          document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
          document.querySelectorAll('.flip-card-inner')[1].classList.remove('rotate_card');
 
-         this.playerData = '';
-         this.computerData = '';
+         setTimeout(() => {
+            this.playerData = '';
+            this.computerData = '';
+         }, 200)         
+         
          this.playerAttack = '';
          this.results = '';
          this.game = 0;
