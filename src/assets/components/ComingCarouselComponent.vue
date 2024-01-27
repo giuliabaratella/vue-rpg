@@ -121,7 +121,7 @@ export default defineComponent({
     background-image: url(../images/home-footer-bg.png);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: top;
+    background-position: bottom;
 }
 </style>
   
