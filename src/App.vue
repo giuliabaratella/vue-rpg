@@ -1,4 +1,5 @@
 <template>
+  <ScrollUpBtn />
   <NavbarComponent />
   <router-view :key="$route.path"></router-view>
   <FooterComponent />
@@ -10,10 +11,12 @@ import { store } from "@/data/store";
 
 import NavbarComponent from "./assets/components/NavbarComponent.vue";
 import FooterComponent from "./assets/components/FooterComponent.vue";
+import ScrollUpBtn from "./assets/components/ScrollUpBtn.vue";
 export default {
   components: {
     NavbarComponent,
     FooterComponent,
+    ScrollUpBtn,
   },
   data() {
     return {
