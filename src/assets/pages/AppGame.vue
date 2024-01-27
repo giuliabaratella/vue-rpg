@@ -4,9 +4,9 @@
       <h1>Play</h1>
       <div class="row">
 
-         <div class="col-4"  id="playerCard">
+         <div class="col-4" id="playerCard">
 
-            <div class="flip-card-inner" >
+            <div class="flip-card-inner">
 
                <div class="flip-card-front" :class="{ 'overflow-y-scroll': !playerData }">
                   <div class="m-3" v-if="!playerData">
@@ -63,7 +63,8 @@
                         <h5>speed: {{ characterSelected.speed }}</h5>
 
                         <div class="d-flex" id="selectItems">
-                           <div @click="selectItem(item, characterSelected.attack, index)" v-for="(item, index) in characterSelected.items">
+                           <div @click="selectItem(item, characterSelected.attack, index)"
+                              v-for="(item, index) in characterSelected.items">
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
                               <span>{{ item.attack }}</span>
                            </div>
@@ -138,8 +139,8 @@
          <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
       </div> -->
       <div v-if="results" class="d-flex gap-5 my-5">
-         <button @click="resetBattle()">Reset</button>
-         <button @click="revengeBattle()">Revenge</button>
+         <button @click="resetBattle(), sendDataGame()">Reset</button>
+         <button @click="revengeBattle(), sendDataGame()">Revenge</button>
       </div>
 
    </div>
@@ -165,10 +166,12 @@ export default {
          onGoingBattle: false,
          round: 0,
          game: 0,
+         computerCountWin: 0,
+         playerCountWin: 0
       }
    },
    methods: {
-      
+
       allCharacters() {
          axios.get(store.apiUrl + '/characters')
             .then((res) => {
@@ -189,20 +192,20 @@ export default {
             setTimeout(() => {
                this.playerData = this.characterSelected;
             }, 200)
-            
-   
+
+
             const lastCharacterIndex = store.characters.length - 1;
             const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
             const rndCharacter = store.characters[randomIndex];
 
             rndCharacter.items[0].attack >= rndCharacter.items[1].attack ?
-            this.computerItem = rndCharacter.items[0] :
-            this.computerItem = rndCharacter.items[1];
+               this.computerItem = rndCharacter.items[0] :
+               this.computerItem = rndCharacter.items[1];
 
             this.computerAttack = this.computerItem.attack + rndCharacter.attack;
-            
+
             this.computerData = rndCharacter;
-   
+
             document.querySelectorAll('.flip-card-inner')[0].classList.add('rotate_card');
             document.querySelectorAll('.flip-card-inner')[1].classList.add('rotate_card');
 
@@ -339,11 +342,13 @@ export default {
          };
 
          if (player.life <= 0) {
-            this.results = 'computer win'
-            return console.log('computer win');
+            this.results = 'computer win';
+            this.computerCountWin++;
+            console.log('computer win');
          } else if (computer.life <= 0) {
             this.results = 'player win';
-            return console.log('player win');
+            console.log('player win');
+            this.playerCountWin++;
          }
       },
 
@@ -364,12 +369,26 @@ export default {
          document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
          document.querySelectorAll('.flip-card-inner')[1].classList.remove('rotate_card');
 
+         this.computerCountWin = 0;
+         this.playerCountWin = 0;
+
          this.playerData = '';
          this.computerData = '';
          this.playerAttack = '';
          this.results = '';
          this.game = 0;
          this.selectCharacter();
+      },
+      sendDataGame() {
+         const data = {
+            computerCountWin: this.computerCountWin,
+            playerCountWin: this.playerCountWin,
+         }
+         axios.post(store.apiUrl + '/games', data).then((response) => {
+            console.log(response.data);
+         }).catch((error) => {
+            console.log('error', error);
+         })
       }
 
    },
@@ -377,7 +396,7 @@ export default {
    mounted() {
       this.allCharacters();
       // this.generateComputerCharacter();
-      
+
    }
 }
 </script>
@@ -471,19 +490,19 @@ export default {
 // flip card
 
 .flip-card {
-  background-color: transparent;
-  width: 300px;
-  height: 300px;
-  perspective: 1000px;
+   background-color: transparent;
+   width: 300px;
+   height: 300px;
+   perspective: 1000px;
 }
 
 .flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s;
-  transform-style: preserve-3d;
-//   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   position: relative;
+   width: 100%;
+   height: 100%;
+   transition: transform 0.5s;
+   transform-style: preserve-3d;
+   //   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 // .flip-card:hover .flip-card-inner {
@@ -491,25 +510,26 @@ export default {
 // }
 
 .rotate_card {
-  transform: rotateY(180deg);
+   transform: rotateY(180deg);
 }
 
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+.flip-card-front,
+.flip-card-back {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   -webkit-backface-visibility: hidden;
+   backface-visibility: hidden;
 }
 
 .flip-card-front {
-//   background-color: #bbb;
-//   color: black;
+   //   background-color: #bbb;
+   //   color: black;
 }
 
 .flip-card-back {
-//   background-color: #2980b9;
-//   color: white;
-  transform: rotateY(180deg);
+   //   background-color: #2980b9;
+   //   color: white;
+   transform: rotateY(180deg);
 }
 </style>
