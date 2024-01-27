@@ -75,6 +75,11 @@
                   <h3>{{ results }}</h3>
                </div>
 
+               
+               <div v-if="game" class="mb-3 d-none" id="games">
+                  <h3 v-if="computerCountWin || playerCountWin">Computer: {{ computerCountWin }} - Player: {{ playerCountWin }}</h3>
+               </div>
+
             </div>
 
 
@@ -111,10 +116,6 @@
 
             </div>
 
-            <div v-if="game" class="mb-3 d-none" id="games">
-               <h1>Game: {{ game }}</h1>
-               <h3 v-if="computerCountWin || playerCountWin">Computer: {{ computerCountWin }} - Player: {{ playerCountWin }}</h3>
-            </div>
 
 
 
@@ -170,18 +171,17 @@
       </div>
 
       <div class="text-center mt-5" v-if="onGoingBattle">
-         <button class="gold-button" @click="startBattle(this.playerData, this.computerData)">Inizia</button>
-      </div>
-      <!-- <div class="my-5" v-if="computerData && playerData && !results">
-         <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
-      </div> -->
-      <div v-if="results" class="d-flex gap-5 my-5">
-         <button @click="resetBattle(), sendDataGame()">Reset</button>
-         <button @click="revengeBattle(), sendDataGame()">Revenge</button>
+         <button class="gold-button" @click="startBattle(this.playerData, this.computerData)">Start Battle</button>
       </div>
 
-   </main>
-</template>
+      <div v-if="results" class="d-flex justify-content-center  gap-5 my-5">
+         <button class="gold-button" @click="resetBattle(), sendDataGame()">Reset</button>
+         <button class="gold-button" @click="revengeBattle(), sendDataGame()">Revenge</button>
+      </div>
+         
+      </main>
+   </div>
+   </template>
  
 <script>
 import axios from 'axios';
