@@ -64,7 +64,7 @@
                         <h5>speed: {{ characterSelected.speed }}</h5>
 
                         <div class="d-flex" id="selectItems">
-                           <div @click="selectItem(item, characterSelected.attack, item)" v-for="item in characterSelected.items">
+                           <div @click="selectItem(item, characterSelected.attack, index)" v-for="(item, index) in characterSelected.items">
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
                               <span>{{ item.attack }}</span>
                            </div>
@@ -208,8 +208,10 @@ export default {
 
       selectItem(item, characterAttack, i) {
          console.log(i);
-         document.querySelectorAll('#selectItems > div')[0].classList.remove('selectItemsAlerts');
-         document.querySelectorAll('#selectItems > div')[1].classList.remove('selectItemsAlerts');
+         document.querySelectorAll('#selectItems > div')[0].classList.remove('selectItemsAlerts', 'active_items');
+         document.querySelectorAll('#selectItems > div')[1].classList.remove('selectItemsAlerts', 'active_items');
+
+         document.querySelectorAll('#selectItems > div')[i].classList.add('active_items');
 
          let totAttack = item.attack + characterAttack;
          document.querySelector('#playerAttackIncreased').textContent = `(${totAttack})`;
