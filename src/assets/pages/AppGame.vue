@@ -108,6 +108,10 @@
 
             </div>
 
+            <div v-if="game" class="mb-3">
+               <h1>Game: {{ game }}</h1>
+               <h3>Computer: {{ countWinComputer }} - Player: {{ countWinPlayer }}</h3>
+            </div>
 
 
 
@@ -196,6 +200,8 @@ export default {
          onGoingBattle: false,
          round: 0,
          game: 0,
+         countWinComputer: 0,
+         countWinPlayer: 0
       }
    },
    methods: {
@@ -261,6 +267,7 @@ export default {
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
 
+
             document.querySelector('#startPlayer').textContent = `${idAtt} start`;
             const currentCardDef = document.querySelector(`#${idDef}Card`);
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
@@ -279,7 +286,6 @@ export default {
             }, 3000)
             setTimeout(() => {
                document.querySelector('#startPlayer').classList.add('d-none');
-
                const defenceDamage = 1 - (def.defence / 100);
                console.log(defenceDamage)
                def.life -= att * defenceDamage;
@@ -371,10 +377,12 @@ export default {
 
          if (player.life <= 0) {
             this.results = 'computer win'
-            return console.log('computer win');
+            this.countWinComputer++;
+            console.log('computer win');
          } else if (computer.life <= 0) {
             this.results = 'player win';
-            return console.log('player win');
+            console.log('player win');
+            this.countWinPlayer++;
          }
       },
 
@@ -505,6 +513,23 @@ export default {
    background-color: $color-primary;
 }
 
+.zoom-in-out {
+   animation: zoom-in-zoom-out 1s ease infinite;
+}
+
+@keyframes zoom-in-zoom-out {
+   0% {
+      transform: scale(1, 1);
+   }
+
+   50% {
+      transform: scale(0.8, 0.8);
+   }
+
+   100% {
+      transform: scale(1, 1);
+   }
+}
 // flip card
 
 .flip-card {
@@ -597,4 +622,5 @@ h1 {
 main {
    margin-bottom: 100px;
 }
+
 </style>
