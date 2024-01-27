@@ -118,8 +118,10 @@ export default defineComponent({
 
 
 .coming-bg {
-    background-image: url(../images/bg-coming-soon.jpg);
+    background-image: url(../images/home-footer-bg.png);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 </style>
   

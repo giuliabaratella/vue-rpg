@@ -8,20 +8,12 @@
       </div>
 
       <div class="row justify-content-center">
-        <Carousel
-          :autoplay="3000"
-          v-bind="settings"
-          :breakpoints="breakpoints"
-          :wrap-around="true"
-          :itemsToShow="5"
-          class="py-5"
-        >
+        <Carousel :autoplay="3000" v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :itemsToShow="5"
+          class="py-5">
           <slide v-for="(item, index) in store.items" :key="index">
-            <router-link
-              :to="{ name: 'single-item', params: { slug: item.slug } }"
-            >
+            <router-link :to="{ name: 'single-item', params: { slug: item.slug } }">
               <div class="h-100 w-100 item-icon overflow-hidden ">
-                <img :src="store.imagePath + item.img" :alt="item.name"/>
+                <img :src="store.imagePath + item.img" :alt="item.name" />
               </div>
               <!-- <basicCard :el="item" /> -->
             </router-link>
@@ -59,15 +51,26 @@ export default {
 
 <style lang="scss" scoped>
 @use "../styles/partials/variables" as *;
+
+.container-fluid {
+  background-image: url('../images/bg-coming-soon.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .carousel__slide {
   padding: 10px;
 }
+
 p {
   font-size: 1.5rem;
 }
+
 .item-icon {
   border: 1px solid $color-primary;
   border-radius: 10px;
+
   &:hover {
     transition: all 0.3s;
     filter: brightness(70%);
