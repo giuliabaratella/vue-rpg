@@ -1,5 +1,5 @@
 <template>
-  <div class="card h-100">
+  <div class="card h-100 overflow-hidden">
     <img :src="store.imagePath + el.img" :alt="el.name" class="card-img-top" />
     <div class="card-body">
       <h5>{{ el.name }}</h5>

@@ -6,8 +6,8 @@
                 <h3>Characters</h3>
             </div>
             <Carousel id="slidecarousel" :wrap-around="true" :itemsToShow="1" :transition="500">
-                <Slide v-for="(character,index) in store.carouselCharacter" :key="index">
-                    <div class="row align-items-center bg align-content-center ">
+                <Slide v-for="(character, index) in store.carouselCharacter" :key="index">
+                    <div class="row align-items-center align-content-center">
                         <div class="col-lg-6 d-flex flex-column align-items-center slide">
                             <h2>
                                 {{ character.name }}
@@ -17,7 +17,7 @@
                                     Class:
                                 </h3>
                                 <div>
-                                    <img :src="store.imagePath+character.type.img" :alt="character.type.name">
+                                    <img :src="store.imagePath + character.type.img" :alt="character.type.name">
                                 </div>
                             </div>
                             <div class="d-flex align-items-center pt-5">
@@ -29,16 +29,17 @@
                                 </div>
                             </div>
                             <div class="py-4 w-75 mb-5">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo maiores iusto eligendi hic vel, beatae labore sapiente facere aspernatur doloremque.</p>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo maiores iusto eligendi hic
+                                    vel, beatae labore sapiente facere aspernatur doloremque.</p>
                             </div>
-                            <div class="mt-4">
-                                <video width="400px" :src="characterVideo[index].video" autoplay no-controls muted loop >
+                            <div class="mt-4 video-wrapper">
+                                <video width="400px" :src="characterVideo[index].video" autoplay no-controls muted loop>
                                 </video>
                             </div>
                         </div>
-                        <div class=" col-lg-6 ">
-                            <div class="mx-5 portrait-wrapper my-5 overflow-hidden rounded-3">
-                                <img :src="store.imagePath+character.img" :alt="character.name">
+                        <div class=" col-lg-6">
+                            <div class="portrait-wrapper my-5 overflow-hidden rounded-3">
+                                <img :src="store.imagePath + character.img" :alt="character.name">
                             </div>
                         </div>
                     </div>
@@ -105,14 +106,13 @@ export default defineComponent({
             ],
         }
     },
-    
+
 })
 </script>
   
 <style>
-
 #slidecarousel {
-    
+
     h2 {
         font-size: 3rem !important;
     }
@@ -153,13 +153,22 @@ export default defineComponent({
 .carousel__prev,
 .carousel__next {
     box-sizing: content-box;
-    border: 5px solid white;
 }
 
 .portrait-wrapper {
     width: 68%;
 }
 
+@media screen and (max-width: 1199px) {
 
+    .video-wrapper {
+        display: none;
+    }
+
+    .portrait-wrapper {
+        width: 300px;
+        margin: auto;
+    }
+}
 </style>
   
