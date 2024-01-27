@@ -62,6 +62,7 @@
                         <h5>life: {{ characterSelected.life }}</h5>
                         <h5>speed: {{ characterSelected.speed }}</h5>
 
+                        <h6>Select one item</h6>
                         <div class="d-flex" id="selectItems">
                            <div @click="selectItem(item, characterSelected.attack, index)"
                               v-for="(item, index) in characterSelected.items">
@@ -79,9 +80,10 @@
 
             </div>
 
-            <div v-if="game" class="mb-3">
+            <div v-if="game" class="mb-3 d-none" id="games">
                <h1>Game: {{ game }}</h1>
-               <h3>Computer: {{ countWinComputer }} - Player: {{ countWinPlayer }}</h3>
+               <h3 v-if="countWinComputer || countWinPlayer">Computer: {{ countWinComputer }} - Player: {{ countWinPlayer
+               }}</h3>
             </div>
 
             <h2 id="startPlayer" class="mb-3"></h2>
@@ -166,7 +168,7 @@ export default {
          results: "",
          onGoingBattle: false,
          round: 0,
-         game: 0,
+         game: 1,
          countWinComputer: 0,
          countWinPlayer: 0
       }
@@ -239,18 +241,23 @@ export default {
             const currentCardAtt = document.querySelector(`#${idAtt}Card`);
             // console.log(currentCardDef);
             // console.log(currentCardAtt);
-
+            setTimeout(() => {
+               currentCardAtt.classList.add('zoom-in-out');
+            }, 700)
             currentCardAtt.classList.remove('animation-dx');
             currentCardAtt.classList.remove('animation-sx');
             setTimeout(() => {
                if (playerTurn) {
+                  currentCardAtt.classList.remove('zoom-in-out');
                   currentCardAtt.classList.add('animation-dx');
                } else {
+                  currentCardAtt.classList.remove('zoom-in-out');
                   currentCardAtt.classList.add('animation-sx');
                }
 
             }, 3000)
             setTimeout(() => {
+               document.querySelector('#games').classList.remove('d-none');
                document.querySelector('#startPlayer').classList.add('d-none');
 
                const defenceDamage = 1 - (def.defence / 100);
@@ -382,6 +389,8 @@ export default {
          this.results = '';
          this.game = 0;
          this.selectCharacter();
+         this.countWinPlayer = 0;
+         this.countWinComputer = 0;
       }
 
    },
@@ -524,5 +533,23 @@ export default {
    //   background-color: #2980b9;
    //   color: white;
    transform: rotateY(180deg);
+}
+
+.zoom-in-out {
+   animation: zoom-in-out 1.5s ease infinite;
+}
+
+@keyframes zoom-in-out {
+   0% {
+      transform: scale(1, 1);
+   }
+
+   50% {
+      transform: scale(0.8, 0.8);
+   }
+
+   100% {
+      transform: scale(1, 1);
+   }
 }
 </style>
