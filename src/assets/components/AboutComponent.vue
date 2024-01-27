@@ -1,7 +1,11 @@
 <template>
     <!-- About  -->
-    <div class="container-fluid container-logo pt-5">
+    <div class="container-fluid container-logo pb-5">
         <section class="container">
+            <div class="section-label mb-5">
+                <img src="../images/rpg_logo_high_white.png" alt="logo" />
+                <h3>Our Story ...</h3>
+            </div>
             <div class="row justify-content-between">
                 <div class="col-lg-6 col-md-12 mb-4">
                     <h1>A New Era Has Begun</h1>

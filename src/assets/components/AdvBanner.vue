@@ -1,21 +1,23 @@
 <template>
     <!-- adv banner  -->
-    <section id="adv-banner">
-        <div class="row justify-content-center">
-            <div class="col-10 banner d-flex flex-column align-items-center justify-content-center">
-                <div class="banner-text text-center">
-                    <h2 class="mb-4 text-uppercase ">70%Off!</h2>
-                    <button class="text-uppercase fw-bold fs-3 gold-button">Get Coins</button>
-                </div>
-                <div class="banner-item-1">
-                    <img src="../images/chest.png" alt="banner-item">
-                </div>
-                <div class="banner-item-2">
-                    <img src="../images/coins.png" alt="banner-item">
+    <div class="container-fluid">
+        <section id="adv-banner">
+            <div class="row justify-content-center">
+                <div class="col-10 banner d-flex flex-column align-items-center justify-content-center">
+                    <div class="banner-text text-center">
+                        <h2 class="mb-4 text-uppercase ">70%Off!</h2>
+                        <button class="text-uppercase fw-bold fs-3 gold-button">Get Coins</button>
+                    </div>
+                    <div class="banner-item-1">
+                        <img src="../images/chest.png" alt="banner-item">
+                    </div>
+                    <div class="banner-item-2">
+                        <img src="../images/coins.png" alt="banner-item">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -27,6 +29,13 @@
 
 <style lang="scss" scoped>
 @use '../styles/partials/variables' as *;
+
+.container-fluid{
+    background-image: url('../images/home-middle-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 .row{
     margin: 0 !important;
     .banner {

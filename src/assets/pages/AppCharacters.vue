@@ -4,10 +4,12 @@
       <h1 class="mb-3">Characters</h1>
       <p>Discover all our playable characters!</p>
 
-      <div class="input-group mb-3">
-        <input class="form-control" type="search" placeholder="Search by name" aria-label="Search">
-        <button class="btn btn-secondary" @click="search = ''">Reset</button>
-        <button class="btn btn-secondary" type="submit" @click="setParams()">Search</button>
+      <div class="d-flex justify-content-end">
+        <div class="input-group mb-3 w-50 py-3 ">
+          <input class="form-control" type="search" placeholder="Search by name" aria-label="Search">
+          <button class="btn btn-my-color" @click="search = ''">Reset</button>
+          <button class="btn btn-my-color" type="submit" @click="setParams()">Search</button>
+        </div>
       </div>
       
 
@@ -91,5 +93,18 @@ h1 {
 }
 p {
   font-size: 1.3em;
+}
+
+input {
+  background-color: $color-bg-dark;
+  border-color: $color-tertiary;
+  color: $color-tertiary;
+}
+
+.btn-my-color {
+  background-color: $color-tertiary;
+  border-color: $color-tertiary;
+  color: $color-white;
+  
 }
 </style>
