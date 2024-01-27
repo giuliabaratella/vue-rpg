@@ -4,43 +4,42 @@
       <h1>Play</h1>
       <div class="row">
 
-         <div class="col-4" :class="{ 'overflow-y-scroll': !playerData }" id="playerCard">
+         <div class="col-4"  id="playerCard">
 
-            <!-- <select v-model="characterSelected" @change="characterId()" class="m-3" v-if="!playerData">
-               <label for="character">Select your character</label>
-               <option v-for="character in this.store.characters" class="m-3" :value="character.id">{{ character.name }}
-               </option>
-            </select> -->
+            <div class="flip-card-inner" >
 
-            <div class="m-3" v-if="!playerData">
-               <div @click="selectCharacter(character)" v-for="character in this.store.characters">
-                  <img :src="store.imagePath + character.img" :alt="character.name">
-                  {{ character.name }}
-               </div>
-            </div>
-
-            <div v-if="playerData">
-               <h1>{{ playerData.name }}</h1>
-               <h3>Stats</h3>
-               <div class="d-flex gap-5">
-                  <h4>Life: {{ playerData.life }}</h4>
-                  <h4>Att: {{ playerData.attack }}</h4>
-                  <h4>Def: {{ playerData.defence }}</h4>
-                  <h4>Speed: {{ playerData.speed }}</h4>
-               </div>
-
-               <div>
-                  <h2>Current Life: <span id="playerLife"></span></h2>
-                  <div class="life_bar">
-                     <div class="progress"></div>
+               <div class="flip-card-front" :class="{ 'overflow-y-scroll': !playerData }">
+                  <div class="m-3" v-if="!playerData">
+                     <div @click="selectCharacter(character)" v-for="character in this.store.characters">
+                        <img :src="store.imagePath + character.img" :alt="character.name">
+                        {{ character.name }}
+                     </div>
                   </div>
                </div>
 
-               <div v-for="item in playerData.items">
-                  <!-- <p>{{ item.name }}</p> -->
-                  <img :src="store.imagePath + item.img" :alt="item.name">
+               <div class="flip-card-back">
+                  <div v-if="playerData">
+                     <h1>{{ playerData.name }}</h1>
+                     <h3>Stats</h3>
+                     <div class="d-flex gap-5">
+                        <h4>Life: {{ playerData.life }}</h4>
+                        <h4>Att: {{ playerAttack }}</h4>
+                        <h4>Def: {{ playerData.defence }}</h4>
+                        <h4>Speed: {{ playerData.speed }}</h4>
+                     </div>
+                     <div>
+                        <h2>Current Life: <span id="playerLife"></span></h2>
+                        <div class="life_bar">
+                           <div class="progress"></div>
+                        </div>
+                     </div>
+                     <div>
+                        <img :src="store.imagePath + playerItem.img" :alt="playerItem.name">
+                     </div>
 
+                  </div>
                </div>
+
             </div>
 
          </div>
@@ -58,14 +57,15 @@
                   <div class="col-7">
                      <div class="ms-3">
                         <h3>{{ characterSelected.name }}</h3>
-                        <h5>attack: {{ characterSelected.attack }}</h5>
+                        <h5>attack: {{ characterSelected.attack }} <span id="playerAttackIncreased"></span></h5>
                         <h5>defence: {{ characterSelected.defence }}</h5>
                         <h5>life: {{ characterSelected.life }}</h5>
                         <h5>speed: {{ characterSelected.speed }}</h5>
 
-                        <div class="d-flex">
-                           <div v-for="item in characterSelected.items">
+                        <div class="d-flex" id="selectItems">
+                           <div @click="selectItem(item, characterSelected.attack, index)" v-for="(item, index) in characterSelected.items">
                               <img class="w-50 " :src="store.imagePath + item.img" :alt="item.name">
+                              <span>{{ item.attack }}</span>
                            </div>
                         </div>
                      </div>
@@ -98,38 +98,45 @@
 
          <div class="col-4" id="computerCard">
 
-            <div v-if="!computerData && playerData">
-               <button @click="generateComputerCharacter()">Genera</button>
-            </div>
+            <div class="flip-card-inner">
 
-            <div v-if="computerData">
-               <h1>{{ computerData.name }}</h1>
-               <h3>Stats</h3>
-               <div class="d-flex gap-5">
-                  <h4>Life: {{ computerData.life }}</h4>
-                  <h4>Att: {{ computerData.attack }}</h4>
-                  <h4>Def: {{ computerData.defence }}</h4>
-                  <h4>Speed: {{ computerData.speed }}</h4>
+               <div class="flip-card-front">
                </div>
-               <div>
-                  <h2>Current Life: <span id="computerLife"></span></h2>
-                  <div class="life_bar">
-                     <div class="progress"></div>
-                  </div>
-                  <div v-for="item in computerData.items">
-                     <!-- <p>{{ item.name }}</p> -->
-                     <img :src="store.imagePath + item.img" :alt="item.name">
+
+               <div class="flip-card-back">
+                  <div v-if="computerData">
+                     <h1>{{ computerData.name }}</h1>
+                     <h3>Stats</h3>
+                     <div class="d-flex gap-5">
+                        <h4>Life: {{ computerData.life }}</h4>
+                        <h4>Att: {{ computerAttack }} </h4>
+                        <h4>Def: {{ computerData.defence }}</h4>
+                        <h4>Speed: {{ computerData.speed }}</h4>
+                     </div>
+                     <div>
+                        <h2>Current Life: <span id="computerLife"></span></h2>
+                        <div class="life_bar">
+                           <div class="progress"></div>
+                        </div>
+                        <div>
+                           <img :src="store.imagePath + computerItem.img" :alt="computerItem.name">
+                        </div>
+                     </div>
                   </div>
                </div>
+
             </div>
 
          </div>
 
       </div>
 
-      <div class="my-5" v-if="computerData && playerData && !results">
+      <div class="my-5" v-if="onGoingBattle">
          <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
       </div>
+      <!-- <div class="my-5" v-if="computerData && playerData && !results">
+         <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
+      </div> -->
       <div v-if="results" class="d-flex gap-5 my-5">
          <button @click="resetBattle()">Reset</button>
          <button @click="revengeBattle()">Revenge</button>
@@ -141,6 +148,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../../data/store';
+
 export default {
    name: 'AppGame',
    data() {
@@ -149,20 +157,18 @@ export default {
          playerData: null,
          computerData: null,
          characterSelected: "",
+         playerAttack: '',
+         computerAttack: '',
+         playerItem: '',
+         computerItem: '',
          results: "",
+         onGoingBattle: false,
          round: 0,
          game: 0,
       }
    },
    methods: {
-
-      generateComputerCharacter() {
-         const lastCharacterIndex = store.characters.length - 1;
-         const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
-         this.computerData = store.characters[randomIndex];
-         console.log(this.computerData);
-      },
-
+      
       allCharacters() {
          axios.get(store.apiUrl + '/characters')
             .then((res) => {
@@ -171,28 +177,55 @@ export default {
             })
       },
 
-      // characterId() {
-      //    console.log(this.characterSelected);
-      //    this.store.characters.forEach(character => {
-      //       // console.log(character);
-      //       if (character.id == characterSelected) {
-      //          this.playerData = character;
-      //       }
-      //    });
-      //    console.log(this.playerData)
-      // },
-
       selectCharacter(character) {
          this.characterSelected = character;
          console.log(this.characterSelected);
       },
 
       confirmCharacter() {
-         this.playerData = this.characterSelected;
+         if (this.playerAttack) {
+            this.onGoingBattle = true;
 
-         document.querySelector('#playerPreview').classList.add('d-none');
+            setTimeout(() => {
+               this.playerData = this.characterSelected;
+            }, 200)
+            
+   
+            const lastCharacterIndex = store.characters.length - 1;
+            const randomIndex = Math.floor(Math.random() * lastCharacterIndex);
+            const rndCharacter = store.characters[randomIndex];
+
+            rndCharacter.items[0].attack >= rndCharacter.items[1].attack ?
+            this.computerItem = rndCharacter.items[0] :
+            this.computerItem = rndCharacter.items[1];
+
+            this.computerAttack = this.computerItem.attack + rndCharacter.attack;
+            
+            this.computerData = rndCharacter;
+   
+            document.querySelectorAll('.flip-card-inner')[0].classList.add('rotate_card');
+            document.querySelectorAll('.flip-card-inner')[1].classList.add('rotate_card');
+
+            document.querySelector('#playerPreview').classList.add('d-none');
+         } else {
+            console.log(document.querySelectorAll('#selectItems > div'))
+            document.querySelectorAll('#selectItems > div')[0].classList.add('selectItemsAlerts');
+            document.querySelectorAll('#selectItems > div')[1].classList.add('selectItemsAlerts');
+
+         }
       },
 
+      selectItem(item, characterAttack, i) {
+         document.querySelectorAll('#selectItems > div')[0].classList.remove('selectItemsAlerts', 'active_items');
+         document.querySelectorAll('#selectItems > div')[1].classList.remove('selectItemsAlerts', 'active_items');
+
+         document.querySelectorAll('#selectItems > div')[i].classList.add('active_items');
+
+         let totAttack = item.attack + characterAttack;
+         document.querySelector('#playerAttackIncreased').textContent = `(${totAttack})`;
+         this.playerAttack = totAttack;
+         this.playerItem = item;
+      },
 
       async startTurn(att, def, idDef, idAtt, playerTurn, life) {
          return new Promise((resolve) => {
@@ -218,7 +251,7 @@ export default {
 
                const defenceDamage = 1 - (def.defence / 100);
                console.log(defenceDamage)
-               def.life -= att.attack * defenceDamage;
+               def.life -= att * defenceDamage;
                console.log(def.life);
 
                let percent = def.life / life.life * 100;
@@ -255,7 +288,7 @@ export default {
       },
 
       async startBattle(playerData, computerData) {
-
+         this.onGoingBattle = false;
          let player = { ...playerData };
          let computer = { ...computerData };
 
@@ -293,9 +326,9 @@ export default {
 
 
             if (playerTurn) {
-               await this.startTurn(player, computer, computerId, playerId, playerTurn, computerData);
+               await this.startTurn(this.playerAttack, computer, computerId, playerId, playerTurn, computerData);
             } else {
-               await this.startTurn(computer, player, playerId, computerId, playerTurn, playerData);
+               await this.startTurn(this.computerAttack, player, playerId, computerId, playerTurn, playerData);
             };
             playerTurn = !playerTurn;
 
@@ -315,8 +348,12 @@ export default {
       },
 
       revengeBattle() {
+         document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
+         this.onGoingBattle = true;
+
          this.results = '';
          this.playerData = '';
+         this.playerAttack = '';
          let progress = document.querySelectorAll('.progress');
          progress[1].style.width = '100%';
          document.querySelector('#computerLife').textContent = '';
@@ -324,8 +361,12 @@ export default {
          this.selectCharacter();
       },
       resetBattle() {
+         document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
+         document.querySelectorAll('.flip-card-inner')[1].classList.remove('rotate_card');
+
          this.playerData = '';
          this.computerData = '';
+         this.playerAttack = '';
          this.results = '';
          this.game = 0;
          this.selectCharacter();
@@ -336,6 +377,7 @@ export default {
    mounted() {
       this.allCharacters();
       // this.generateComputerCharacter();
+      
    }
 }
 </script>
@@ -363,11 +405,14 @@ export default {
    border-radius: 1rem;
    margin: 2rem;
    padding: 1rem;
+}
 
-   // img
-   // {
-   //    width: 40%;
-   // }
+.selectItemsAlerts {
+   border: solid 2px red;
+}
+
+.active_items {
+   border: solid 2px green;
 }
 
 
@@ -421,5 +466,50 @@ export default {
    transition: 1s;
    width: 100%;
    background-color: $color-primary;
+}
+
+// flip card
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+//   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+// .flip-card:hover .flip-card-inner {
+//   transform: rotateY(180deg);
+// }
+
+.rotate_card {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+//   background-color: #bbb;
+//   color: black;
+}
+
+.flip-card-back {
+//   background-color: #2980b9;
+//   color: white;
+  transform: rotateY(180deg);
 }
 </style>
