@@ -172,9 +172,9 @@
       <!-- <div class="my-5" v-if="computerData && playerData && !results">
          <button @click="startBattle(this.playerData, this.computerData)">Inizia</button>
       </div> -->
-      <div v-if="results" class="d-flex justify-content-center  gap-5 my-5">
-         <button class="gold-button" @click="resetBattle()">Reset</button>
-         <button class="gold-button" @click="revengeBattle()">Revenge</button>
+      <div v-if="results" class="d-flex gap-5 my-5">
+         <button @click="resetBattle(), sendDataGame()">Reset</button>
+         <button @click="revengeBattle(), sendDataGame()">Revenge</button>
       </div>
 
    </main>
@@ -200,8 +200,8 @@ export default {
          onGoingBattle: false,
          round: 0,
          game: 0,
-         countWinComputer: 0,
-         countWinPlayer: 0
+         computerCountWin: 0,
+         playerCountWin: 0
       }
    },
    methods: {
@@ -376,13 +376,13 @@ export default {
          };
 
          if (player.life <= 0) {
-            this.results = 'computer win'
-            this.countWinComputer++;
+            this.results = 'computer win';
+            this.computerCountWin++;
             console.log('computer win');
          } else if (computer.life <= 0) {
             this.results = 'player win';
             console.log('player win');
-            this.countWinPlayer++;
+            this.playerCountWin++;
          }
       },
 
@@ -404,12 +404,26 @@ export default {
          document.querySelectorAll('.flip-card-inner')[0].classList.remove('rotate_card');
          document.querySelectorAll('.flip-card-inner')[1].classList.remove('rotate_card');
 
+         this.computerCountWin = 0;
+         this.playerCountWin = 0;
+
          this.playerData = '';
          this.computerData = '';
          this.playerAttack = '';
          this.results = '';
          this.game = 0;
          this.selectCharacter();
+      },
+      sendDataGame() {
+         const data = {
+            computerCountWin: this.computerCountWin,
+            playerCountWin: this.playerCountWin,
+         }
+         axios.post(store.apiUrl + '/games', data).then((response) => {
+            console.log(response.data);
+         }).catch((error) => {
+            console.log('error', error);
+         })
       }
 
    },
@@ -545,7 +559,6 @@ export default {
    height: 100%;
    transition: transform 0.5s;
    transform-style: preserve-3d;
-
    //   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 

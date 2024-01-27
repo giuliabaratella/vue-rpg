@@ -53,6 +53,11 @@ const router = createRouter({
       component: AppGame,
     },
     {
+      path: '/games',
+      name: 'games',
+      component: AppGame
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "not-found",
       component: NotFound,
