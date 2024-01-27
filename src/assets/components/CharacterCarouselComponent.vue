@@ -1,27 +1,61 @@
 <template>
     <section class="container-fluid carousel-bg">
         <div class="container">
-            <div class="section-label mb-5">
+            <div class="section-label mt-2">
                 <img src="../images/rpg_logo_high_white.png" alt="logo" />
                 <h3>Characters</h3>
             </div>
-            <Carousel :wrap-around="true">
-                <Slide  v-for="(character,index) in store.carouselCharacter" :key="index">
-                    <div class="carousel__item">
-                        {{ character.name }}
-                        <div class="character-portrait">
-                            <img :src="store.imagePath+character.img" :alt="character.name">
+            <Carousel id="slidecarousel" :wrap-around="true" :itemsToShow="1" :transition="500">
+                <Slide v-for="(character,index) in store.carouselCharacter" :key="index">
+                    <div class="row align-items-center bg align-content-center ">
+                        <div class="col-lg-6 d-flex flex-column align-items-center slide">
+                            <h2>
+                                {{ character.name }}
+                            </h2>
+                            <div class="d-flex align-items-center pb-4">
+                                <h3 class="me-3">
+                                    Class:
+                                </h3>
+                                <div>
+                                    <img :src="store.imagePath+character.type.img" :alt="character.type.name">
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-5">
+                                <h4 class="me-3">
+                                    Items:
+                                </h4>
+                                <div v-for="item in character.items" class="item-portrait me-3 overflow-hidden rounded-3">
+                                    <img :src="store.imagePath + item.img" :alt="item.name" />
+                                </div>
+                            </div>
+                            <div class="py-4 w-75 mb-5">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo maiores iusto eligendi hic vel, beatae labore sapiente facere aspernatur doloremque.</p>
+                            </div>
+                            <div class="mt-4">
+                                <video width="400px" :src="characterVideo[index].video" autoplay no-controls muted loop >
+                                </video>
+                            </div>
                         </div>
-                        {{ character.type.img }}
-                    </div>
-                    <div>
-                        <video :src="characterVideo[index].video" autoplay no-controls muted loop >
-                        </video>
+                        <div class=" col-lg-6 ">
+                            <div class="mx-5 portrait-wrapper my-5 overflow-hidden rounded-3">
+                                <img :src="store.imagePath+character.img" :alt="character.name">
+                            </div>
+                        </div>
                     </div>
                 </Slide>
+
+
+
+
                 <template #addons>
-                    <Navigation />
-                    <Pagination />
+                    <Navigation>
+                        <template #next>
+                            <img src="../images/arrow-right.png" alt="arraw-right">
+                        </template>
+                        <template #prev>
+                            <img src="../images/arrow-left.png" alt="arraw-left">
+                        </template>
+                    </Navigation>
                 </template>
             </Carousel>
         </div>
@@ -76,16 +110,40 @@ export default defineComponent({
 </script>
   
 <style>
+
+#slidecarousel {
+    
+    h2 {
+        font-size: 3rem !important;
+    }
+
+    h3 {
+        font-size: 2.3rem !important;
+    }
+
+    p {
+        font-size: 1.7rem !important;
+    }
+
+    .item-portrait {
+        width: 60px;
+        height: 60px;
+    }
+
+}
+
+
+.carousel-bg {
+    background-image: url("../images/carousel-bg.png");
+    background-repeat: no-repeat;
+    background-size: 90%;
+    background-position: bottom;
+
+}
+
 .carousel__item {
-    min-height: 200px;
-    width: 100%;
-    background-color: var(--vc-clr-primary);
     color: var(--vc-clr-white);
-    font-size: 20px;
     border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .carousel__slide {
@@ -98,8 +156,10 @@ export default defineComponent({
     border: 5px solid white;
 }
 
-.character-portrait {
-    width: 300px;
+.portrait-wrapper {
+    width: 68%;
 }
+
+
 </style>
   
