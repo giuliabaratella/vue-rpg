@@ -1,11 +1,13 @@
 <template>
-  <div v-if="item">
+  <div v-if="item" class="container-fluid">
     <main
       class="container py-5 d-flex flex-column justify-content-center align-items-center"
     >
-      <div class="row item-card p-3 mb-5 mx-3">
+      <div class="row item-card p-3 mb-5 mx-3 align-items-center ">
         <div class="col-md-4 col-lg-3 mb-lg-3">
-          <img :src="store.imagePath + item.img" :alt="item.name" />
+          <div class="overflow-hidden rounded-3">
+            <img :src="store.imagePath + item.img" :alt="item.name" />
+          </div>
         </div>
         <div class="col-md-8 col-lg-9">
           <div class="d-flex justify-content-between">
@@ -107,7 +109,21 @@ export default {
 <style lang="scss" scoped>
 @use "../styles/partials/variables" as *;
 
+.container-fluid {
+  background-image: url("../images/detail_character_page_01.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+}
+
+
+
 .item-card {
+  background-image: url("../images/bg-logo-fade.png");
+  background-repeat: no-repeat;
+  background-size: 800px;
+  background-position: center;
+  background-color: $color-bg-dark;
   border: 1px solid $color-primary;
   border-radius: 20px;
   max-width: 1000px;
