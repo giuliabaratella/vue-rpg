@@ -1,7 +1,5 @@
 <template>
-  <LoaderComponent
-    v-if="store.charactersLoading || store.typesLoading || store.itemsLoading"
-  />
+  <LoaderComponent v-if="store.charactersLoading || store.typesLoading || store.itemsLoading" />
   <ScrollUpBtn />
   <NavbarComponent />
   <router-view :key="$route.path"></router-view>
@@ -33,6 +31,7 @@ export default {
       axios.get(store.apiUrl + "/characters").then((res) => {
         console.log(res.data.results);
         this.store.characters = res.data.results;
+        this.getCarousel();
         this.store.charactersLoading = false;
       });
     },
@@ -50,6 +49,14 @@ export default {
         this.store.itemsLoading = false;
       });
     },
+    getCarousel() {
+      if (store.characters.length > 0) {
+        for (let i = 0; i < 5; i++) {
+          this.store.carouselCharacter.push(this.store.characters[i]);
+        }
+        console.log(this.store.carouselCharacter);
+      }
+    }
   },
   mounted() {
     this.allCharacters();
