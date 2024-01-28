@@ -55,7 +55,7 @@ export default {
 .container-fluid {
   background-image: url('../images/bg-coming-soon.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 1200px;
   background-position: center;
 }
 

@@ -1,11 +1,15 @@
 <template>
   <div class="container-fluid pb-5">
     <main class="container text-center py-5">
-      <h1 class="mb-3">Types</h1>
-      <p>
-        Discover all our playable classes! <br />Click on the relative icon to
-        learn all the details and see the related characters.
-      </p>
+      <div class="pb-5">
+        <h1 class="mb-3">
+          Types
+        </h1>
+        <p>
+          Discover all our playable classes! <br />Click on the relative icon to
+          learn all the details and see the related characters.
+        </p>
+      </div>
       <div class="row g-4 justify-content-center w-50 mx-auto">
         <div
           v-for="type in this.store.types"
@@ -51,7 +55,7 @@ export default {
 @use "../styles/partials/variables" as *;
 
 .container-fluid {
-  background-image: url('../images/all_character_page_02.png');
+  background-image: url('../images/all_types_page_01.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;

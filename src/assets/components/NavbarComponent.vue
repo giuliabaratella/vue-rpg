@@ -154,6 +154,11 @@ nav {
 
   #logo {
     width: 70px;
+    &:hover {
+      transform: scale(1.15);
+      transition: all 0.5s;
+    }
+
   }
 
   .nav-link {

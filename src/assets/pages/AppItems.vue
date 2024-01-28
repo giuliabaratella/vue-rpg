@@ -42,7 +42,7 @@ export default {
 @use "../styles/partials/variables" as *;
 
 .container-fluid {
-  background-image: url('../images/all_character_page_01.png');
+  background-image: url('../images/all_items_page_01.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;

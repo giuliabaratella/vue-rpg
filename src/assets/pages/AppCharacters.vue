@@ -1,10 +1,12 @@
 <template>
   <div class="container-fluid">
     <main class="container text-center py-5">
-      <h1 class="mb-3">Characters</h1>
+      <h1 class="mb-3">
+        Characters
+      </h1>
       <p>Discover all our playable characters!</p>
 
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-center">
         <div class="input-group mb-3 w-50 py-3 ">
           <input class="form-control" type="search" placeholder="Search by name" aria-label="Search">
           <button class="btn btn-my-color" @click="search = ''">Reset</button>
@@ -82,7 +84,7 @@ export default {
 @use "../styles/partials/variables" as *;
 
 .container-fluid {
-  background-image: url("../images/all_character_page_01.png");
+  background-image: url("../images/all_character_page_03.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
@@ -105,6 +107,5 @@ input {
   background-color: $color-tertiary;
   border-color: $color-tertiary;
   color: $color-white;
-  
 }
 </style>
