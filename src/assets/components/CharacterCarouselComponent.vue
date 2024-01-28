@@ -3,7 +3,7 @@
         <div class="container">
             <div class="section-label mt-2">
                 <img src="../images/rpg_logo_high_white.png" alt="logo" />
-                <h3>Characters</h3>
+                <h3 class="pe-2">Most Rated Characters</h3>
             </div>
             <Carousel id="slidecarousel" :wrap-around="true" :itemsToShow="1" :transition="500">
                 <Slide v-for="(character, index) in store.carouselCharacter" :key="index">
@@ -86,30 +86,30 @@ export default defineComponent({
                 {
                     video: '/images/paladin-demo.mp4',
                     title: 'paladin-demo',
-                    plot:'Captain of the knightly Order of the White Dragons. Despite his youth, he is more than capable of leading the forces of an entire kingdom.'
+                    plot: 'Captain of the knightly Order of the White Dragons. Despite his youth, he is more than capable of leading the forces of an entire kingdom.'
                 },
                 {
                     video: '/images/sorcerer-demo.mp4',
                     title: 'sorcerer-demo',
-                    plot:"Don't let her small size fool you. This young mage is eager to showcase her impressive talent. She vows to bring her skills to the world."
+                    plot: "Don't let her small size fool you. This young mage is eager to showcase her impressive talent. She vows to bring her skills to the world."
 
                 },
                 {
                     video: '/images/ranger-demo.mp4',
                     title: 'ranger-demo',
-                    plot:'A man of valor and kindness, he pours his heart and soul into protecting his homeland, the poor ones, his friends, and his comrades-in-arms.'
+                    plot: 'A man of valor and kindness, he pours his heart and soul into protecting his homeland, the poor ones, his friends, and his comrades-in-arms.'
 
                 },
                 {
                     video: '/images/barbarian-demo.mp4',
                     title: 'barbarian-demo',
-                    plot:'This towering Draph warrior belongs to an organization which hunts primal beasts. He has formed a contract with the Great Scythe Grynoth.'
+                    plot: 'This towering Draph warrior belongs to an organization which hunts primal beasts. He has formed a contract with the Great Scythe Grynoth.'
 
                 },
                 {
                     video: '/images/rogue-demo.mp4',
                     title: 'rogue-demo',
-                    plot:'Born to a clan renowned for their mastery of all forms of martial arts, this swordswoman trains every day in order to reach even greater heights.'
+                    plot: 'Born to a clan renowned for their mastery of all forms of martial arts, this swordswoman trains every day in order to reach even greater heights.'
 
                 }
 

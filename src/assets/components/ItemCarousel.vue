@@ -4,7 +4,7 @@
     <div class="container">
       <div class="section-label">
         <img src="../images/rpg_logo_high_white.png" alt="logo" />
-        <h3>Most rated items</h3>
+        <h3>Most valuable items</h3>
       </div>
 
       <div class="row justify-content-center">
@@ -15,7 +15,7 @@
               <div class="h-100 w-100 item-icon overflow-hidden ">
                 <img :src="store.imagePath + item.img" :alt="item.name" />
               </div>
-              <!-- <basicCard :el="item" /> -->
+
             </router-link>
           </slide>
         </Carousel>
