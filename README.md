@@ -1,9 +1,10 @@
-# Inclusive RPG Game 
+#  SHADOW'S JUSTICE RPG Game 
 
 ![homepage](/public/images/readImage/homepage.png)
 
 ## ***About the project***
  This is a web-site RPG Game and that is made for create a dinamic battle, by choosing characters, types and items.
+ 
 
 
 ### ***Features***
@@ -15,10 +16,11 @@
 
 ![item](/public/images/readImage/item.png)
 - Types -> this page show you all types of characters. When you click on a card, you will be shown the full description of this type and what character has got this;
+![type](/public/images/readImage/types.png)
 
 
 ### ***How it works***
-- ### ***Choose the character***
+- ### ***Choose your character***
 > To start the game, you must click the 'GAME' button .
 On the left, there is a card with all characters that you can choose. When you choose one, a card will appear in the middle which will show you the details of the chosen character with specific characteristics.
 After choosing the character, click the 'CONFIRM' button.
@@ -37,7 +39,7 @@ Now, click the 'GENERATE' button, this way your opponent will be created randoml
 
  You can get your revenge by clicking the 'REVENGE' button. You will have the option to choose another character, always fighting against your previous opponent.
 
-**ENJOY!**
+**THANK AND ENJOY!**
 
 
 # Contributors
