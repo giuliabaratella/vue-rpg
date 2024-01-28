@@ -25,7 +25,7 @@
           <div>
             <div class="d-flex mb-3 justify-content-between">
               <div class="d-flex">
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center me-2">
                   <h4 mb-1>Att</h4>
                   <div class="stats-box">+{{ item.attack }}</div>
                 </div>

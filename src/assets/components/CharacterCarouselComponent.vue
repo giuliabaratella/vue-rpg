@@ -28,9 +28,10 @@
                                     <img :src="store.imagePath + item.img" :alt="item.name" />
                                 </div>
                             </div>
-                            <div class="py-4 w-75 mb-5">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo maiores iusto eligendi hic
-                                    vel, beatae labore sapiente facere aspernatur doloremque.</p>
+                            <div class="py-4 w-50 mb-4">
+                                <p>
+                                    {{ characterVideo[index].plot }}
+                                </p>
                             </div>
                             <div class="mt-4 video-wrapper">
                                 <video width="400px" :src="characterVideo[index].video" autoplay no-controls muted loop>
@@ -85,22 +86,31 @@ export default defineComponent({
                 {
                     video: '/images/paladin-demo.mp4',
                     title: 'paladin-demo',
+                    plot:'Captain of the knightly Order of the White Dragons. Despite his youth, he is more than capable of leading the forces of an entire kingdom.'
                 },
                 {
                     video: '/images/sorcerer-demo.mp4',
                     title: 'sorcerer-demo',
+                    plot:"Don't let her small size fool you. This young mage is eager to showcase her impressive talent. She vows to bring her skills to the world."
+
                 },
                 {
                     video: '/images/ranger-demo.mp4',
                     title: 'ranger-demo',
+                    plot:'A man of valor and kindness, he pours his heart and soul into protecting his homeland, the poor ones, his friends, and his comrades-in-arms.'
+
                 },
                 {
                     video: '/images/barbarian-demo.mp4',
                     title: 'barbarian-demo',
+                    plot:'This towering Draph warrior belongs to an organization which hunts primal beasts. He has formed a contract with the Great Scythe Grynoth.'
+
                 },
                 {
                     video: '/images/rogue-demo.mp4',
                     title: 'rogue-demo',
+                    plot:'Born to a clan renowned for their mastery of all forms of martial arts, this swordswoman trains every day in order to reach even greater heights.'
+
                 }
 
             ],

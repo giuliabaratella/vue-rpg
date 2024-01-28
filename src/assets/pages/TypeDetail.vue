@@ -11,7 +11,7 @@
               <img :src="store.imagePath + type.img" :alt="type.image" />
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12 w-50 m-auto">
             <div>{{ type.description }}</div>
           </div>
         </div>

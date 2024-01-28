@@ -5,7 +5,7 @@
         class="container py-5 d-flex flex-column justify-content-center align-items-center"
       >
         <div class="row character-card p-3 mb-5 mx-3">
-          <div class="col-md-4 col-lg-3 mb-lg-3 overflow-hidden pt-2">
+          <div class="col-md-4 col-lg-3 mb-lg-3 py-2">
             <img :src="store.imagePath + character.img" :alt="character.name" />
           </div>
           <div class="col-md-8 col-lg-9">
@@ -33,15 +33,15 @@
             <!-- stats  -->
             <div>
               <div class="d-flex mb-3">
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center me-2">
                   <h4 mb-1>Att</h4>
                   <div class="stats-box">{{ character.attack }}</div>
                 </div>
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center me-2">
                   <h4 mb-1>Def</h4>
                   <div class="stats-box">{{ character.defence }}</div>
                 </div>
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center me-2">
                   <h4 mb-1>Speed</h4>
                   <div class="stats-box">{{ character.speed }}</div>
                 </div>
@@ -56,7 +56,7 @@
               <h4>Items:</h4>
               <div class="d-flex column-gap-3">
                 <div v-for="item in character.items" class="text-center mb-3">
-                  <div class="item-box mb-3">
+                  <div class="item-box mb-3 rounded-3 overflow-hidden">
                     <router-link
                       :to="{ name: 'single-item', params: { slug: item.slug } }"
                     >
