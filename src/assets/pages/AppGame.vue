@@ -1,6 +1,6 @@
 <template>
    <div id="game">
-   <main class="container py-5">
+   <main class="container pt-5 pt-3">
       
       <div class="panel">
         <h1 class="jj">
@@ -194,8 +194,8 @@
                      Battle</button>
                </div>
                <div v-if="results" class="d-flex justify-content-center  gap-5">
-                  <button class="gold-button" @click="resetBattle(), sendDataGame()">Reset</button>
-                  <button class="gold-button" @click="revengeBattle(), sendDataGame()">Revenge</button>
+                  <button class="gold-button" @click="resetBattle()">Reset</button>
+                  <button class="gold-button" @click="revengeBattle()">Revenge</button>
                </div>
             </div>
          </div>
@@ -345,8 +345,8 @@ export default {
                document.querySelector('#games').classList.remove('d-none');
                document.querySelector('#startPlayer').classList.add('d-none');
                let defenceDamage = '';
-               if (def.defence > 80) {
-                  defenceDamage = 0.2;
+               if (def.defence > 75) {
+                  defenceDamage = 0.25;
                } else {
                   defenceDamage = 1 - (def.defence / 100);
                }
@@ -449,6 +449,8 @@ export default {
             console.log('player win');
             this.playerCountWin++;
          }
+
+         this.sendDataGame();
       },
 
       revengeBattle() {
@@ -484,13 +486,18 @@ export default {
       },
 
       sendDataGame() {
+         console.log(this.computerData.name);
          const data = {
-            computerCountWin: this.computerCountWin,
-            playerCountWin: this.playerCountWin,
+            computer_count_win: this.computerCountWin,
+            player_count_win: this.playerCountWin,
+            computer_name: this.computerData.name,
+            player_name: this.playerData.name,
+            game: this.game,
          }
          axios.post(store.apiUrl + '/games', data).then((response) => {
             console.log(response.data);
          }).catch((error) => {
+            console.log(data);
             console.log('error', error);
          })
       }
@@ -779,11 +786,6 @@ export default {
 h1 {
    color: $color-primary;
    font-size: 4em;
-}
-
-
-main {
-   margin-bottom: 100px;
 }
 
 #game {
